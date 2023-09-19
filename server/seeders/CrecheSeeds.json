@@ -1,0 +1,62 @@
+[
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "Everyone knows that debugging is twice as hard as writing a program in the first place. So if you're as clever as you can be when you write it, how will you ever debug it?",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "Brian Kernighan"
+  },
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "Some of the best programming is done on paper, really. Putting it into the computer is just a minor detail.",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "Max Kanat-Alexander"
+  },
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "When you don't create things, you become defined by your tastes rather than ability. Your tastes only narrow & exclude people. So create.",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "Why The Lucky Stiff"
+  },
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "I'm not a great programmer; I'm just a good programmer with great habits.",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "Kent Beck"
+  },
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "Walking on water and developing software from a specification are easy if both are frozen.",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "Edward V. Berard"
+  },
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "The most disastrous thing that you can ever learn is your first programming language.",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "Alan Kay"
+  },
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "The most important property of a program is whether it accomplishes the intention of its user.",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "C.A.R. Hoare"
+  },
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "Delivering good software today is often better than perfect software tomorrow, so finish things and ship.",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "David Thomas"
+  },
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "If you optimize everything, you will always be unhappy.",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "Donald Knuth"
+  },
+  {
+    "crecheOrigin": "United States",
+    "crecheDescription": "It's not a bug; it's an undocumented feature.",
+    "crecheImage": "./DefaultCrecheImage.jpg",
+    "crecheUser": "Lernantino"
+  }
+]
