@@ -19,6 +19,9 @@ html {
  */
 body {
   margin: 0;
+  background-image: url('../assets/images/mary-and-baby-jesus.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 /**
@@ -1479,6 +1482,9 @@ label form [type='radio'] {
   .col-md-12 {
     flex: 0 0 100%;
     max-width: 100%;
+  }
+  .MuiTypography-h2 {
+    className: 'MuiTypography-h3'
   }
   .justify-space-between-md {
     justify-content: space-between;

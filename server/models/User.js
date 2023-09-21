@@ -2,10 +2,16 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
-  username: {
+  firstName: {
     type: String,
     required: true,
-    unique: true,
+    unique: false,
+    trim: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    unique: false,
     trim: true,
   },
   email: {
@@ -48,6 +54,18 @@ userSchema
 .set(function (v) {
   const numCreches = v.length;
   this.set({ numCreches });
+});
+
+userSchema
+.virtual("userName")
+// Getter
+.get(function () {
+  return this.firstName + ' ' + this.lastName;
+})
+// Setter to set the first and last name
+.set(function () {
+  const fullName = this.firstName + ' ' + this.lastName;
+  this.set({ fullName });
 });
 
 userSchema.pre('save', async function (next) {
