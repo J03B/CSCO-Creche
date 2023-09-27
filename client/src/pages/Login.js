@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
+import { Card, CardContent } from "@mui/material";
 
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
@@ -50,9 +51,9 @@ const Login = (props) => {
   return (
     <main className="flex-row justify-center mb-4">
       <div className="col-12 col-lg-10">
-        <div className="card">
+        <Card>
           <h4 className="card-header bg-dark text-light p-2">Login</h4>
-          <div className="card-body">
+          <CardContent>
             {data ? (
               <p>
                 Success! You may now head{" "}
@@ -100,8 +101,8 @@ const Login = (props) => {
                 {error.message}
               </Alert>
             )}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </main>
   );

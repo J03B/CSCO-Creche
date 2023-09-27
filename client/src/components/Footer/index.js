@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import ShareIcon from '@mui/icons-material/Share';
 import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const Footer = () => {
   const location = useLocation();
@@ -33,6 +34,10 @@ const Footer = () => {
         </h5>
         <h5>
           <ShareIcon /> Share: <a href={require("./christmasExperienceInvitation-2022.jpg")} download>Download Creche Invitation</a>
+        </h5>
+        <h5>
+          <LocationOnIcon /> Event Location: <Link to={"https://maps.app.goo.gl/mbuHCrEh8C4BMDGc9"}> The Church of Jesus Christ of Latter-day Saints: 
+   8710 Lexington Drive, Colorado Springs  </Link>
         </h5>
       </div>
     </footer>
