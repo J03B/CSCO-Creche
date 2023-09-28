@@ -1,62 +1,26 @@
 [
   {
-    "username": "Brian Kernighan",
+    "firstName": "Brian",
+    "lastName": "Kernighan",
     "phoneNumber": "719-599-5380",
     "email": "bkernighan@techfriends.dev",
-    "password": "password01"
+    "password": "password01",
+    "wardName": "Cordera"
   },
   {
-    "username": "Max Kanat-Alexander",
+    "firstName": "Max",
+    "lastName": "Kanat-Alexander",
     "phoneNumber": "719-599-5381",
     "email": "mkanatalexander@techfriends.dev",
-    "password": "password02"
+    "password": "password02",
+    "wardName": "Meadow Run"
   },
   {
-    "username": "Why The Lucky Stiff",
-    "phoneNumber": "719-599-5382",
-    "email": "wtls@techfriends.dev",
-    "password": "password03"
-  },
-  {
-    "username": "Kent Beck",
-    "phoneNumber": "719-599-5383",
-    "email": "kbeck@techfriends.dev",
-    "password": "password04"
-  },
-  {
-    "username": "Edward V. Berard",
+    "firstName": "Joe",
+    "lastName": "Black",
     "phoneNumber": "719-599-5384",
-    "email": "evberard@techfriends.dev",
-    "password": "password05"
-  },
-  {
-    "username": "Alan Kay",
-    "phoneNumber": "719-599-5385",
-    "email": "akay@techfriends.dev",
-    "password": "password06"
-  },
-  {
-    "username": "C.A.R. Hoare",
-    "phoneNumber": "719-599-5386",
-    "email": "choare@techfriends.dev",
-    "password": "password07"
-  },
-  {
-    "username": "David Thomas",
-    "phoneNumber": "719-599-5387",
-    "email": "dthomas@techfriends.dev",
-    "password": "password08"
-  },
-  {
-    "username": "Donald Knuth",
-    "phoneNumber": "719-599-5389",
-    "email": "dknuth@techfriends.dev",
-    "password": "password09"
-  },
-  {
-    "username": "Lernantino",
-    "phoneNumber": "719-599-5390",
-    "email": "lernantino@techfriends.dev",
-    "password": "password10"
+    "email": "byucrazyfan@gmail.com",
+    "password": "password07",
+    "wardName": "Pine Creek"
   }
 ]

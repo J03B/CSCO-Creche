@@ -31,6 +31,13 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   },
+  wardName: {
+    type: String,
+    required: true,
+    minlength: 1,
+    maxlength: 100,
+    trim: true,
+  },
   creches: [
     {
       type: Schema.Types.ObjectId,

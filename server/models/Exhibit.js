@@ -1,6 +1,12 @@
 const { Schema, model } = require("mongoose");
 
 const exhibitSchema = new Schema({
+  exhibitYear: {
+    type: Number,
+    required: true,
+    minlength: 1,
+    maxlength: 4,
+  },
   creches: [
     {
       type: Schema.Types.ObjectId,

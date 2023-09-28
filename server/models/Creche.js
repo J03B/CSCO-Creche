@@ -2,6 +2,13 @@ const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
 const crecheSchema = new Schema({
+  crecheTitle: {
+    type: String,
+    required: true,
+    minlength: 1,
+    maxlength: 280,
+    trim: true,
+  },
   crecheOrigin: {
     type: String,
     required: true,
@@ -23,6 +30,10 @@ const crecheSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+  },
+  yearsDonated: {
+    type: [Number],
+    maxlength: 4,
   },
   createdAt: {
     type: Date,

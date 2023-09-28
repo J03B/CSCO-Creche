@@ -6,17 +6,22 @@ export const LOGIN_USER = gql`
       token
       user {
         _id
-        username
+        firstName
+        lastName
         email
         phoneNumber
         password
+        wardName
+        userName
         totalCreches
         creches {
           _id
+          crecheTitle
           crecheOrigin
           crecheDescription
           crecheImage
           crecheUser
+          yearsDonated
           createdAt
         }
       }
@@ -25,22 +30,27 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_USER = gql`
-  mutation addUser($username: String!, $email: String!, $phoneNumber: String!, $password: String!) {
-    addUser(username: $username, email: $email, phoneNumber: $phoneNumber, password: $password) {
+  mutation addUser($firstName: String!, $lastName: String!, $email: String!, $phoneNumber: String!, $password: String!, $wardName: String!) {
+    addUser(firstName: $firstName, lastName: $lastName, email: $email, phoneNumber: $phoneNumber, password: $password, wardName: $wardName) {
       token
       user {
         _id
-        username
+        firstName
+        lastName
         email
         phoneNumber
         password
+        wardName
+        userName
         totalCreches
         creches {
           _id
+          crecheTitle
           crecheOrigin
           crecheDescription
           crecheImage
           crecheUser
+          yearsDonated
           createdAt
         }
       }
@@ -49,13 +59,15 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_CRECHE = gql`
-  mutation addCreche($crecheOrigin: String!, $crecheDescription: String!, $crecheImage: String!) {
-    addCreche(crecheOrigin: $crecheOrigin, crecheDescription: $crecheDescription, crecheImage: $crecheImage) {
+  mutation addCreche($crecheTitle: String!, $crecheOrigin: String!, $crecheDescription: String!, $crecheImage: String!, $crecheUser: String!, $yearsDonated: [Int]!) {
+    addCreche(crecheTitle: $crecheTitle, crecheOrigin: $crecheOrigin, crecheDescription: $crecheDescription, crecheImage: $crecheImage, crecheUser: $crecheUser, yearsDonated: $yearsDonated) {
       _id
+      crecheTitle
       crecheOrigin
       crecheDescription
       crecheImage
       crecheUser
+      yearsDonated
       createdAt
     }
   }
@@ -65,10 +77,12 @@ export const REMOVE_CRECHE = gql`
   mutation removeCreche($crecheId: ID!) {
     removeCreche(crecheId: $crecheId) {
       _id
+      crecheTitle
       crecheOrigin
       crecheDescription
       crecheImage
       crecheUser
+      yearsDonated
       createdAt
     }
   }

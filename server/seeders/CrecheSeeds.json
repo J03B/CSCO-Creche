@@ -1,62 +1,74 @@
 [
   {
+    "crecheTitle": "Away in a Manger",
     "crecheOrigin": "United States",
     "crecheDescription": "Everyone knows that debugging is twice as hard as writing a program in the first place. So if you're as clever as you can be when you write it, how will you ever debug it?",
     "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "Brian Kernighan"
+    "crecheUser": "Brian Kernighan",
+    "yearsDonated": "2023"
   },
   {
+    "crecheTitle": "Silent Night",
     "crecheOrigin": "United States",
     "crecheDescription": "Some of the best programming is done on paper, really. Putting it into the computer is just a minor detail.",
     "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "Max Kanat-Alexander"
+    "crecheUser": "Max Kanat-Alexander",
+    "yearsDonated": "2023"
   },
   {
+    "crecheTitle": "The Lord is our Shephard",
     "crecheOrigin": "United States",
     "crecheDescription": "When you don't create things, you become defined by your tastes rather than ability. Your tastes only narrow & exclude people. So create.",
     "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "Why The Lucky Stiff"
+    "crecheUser": "Brian Kernighan",
+    "yearsDonated": "2023"
   },
   {
+    "crecheTitle": "A Star is Born",
     "crecheOrigin": "United States",
     "crecheDescription": "I'm not a great programmer; I'm just a good programmer with great habits.",
     "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "Kent Beck"
+    "crecheUser": "Max Kanat-Alexander",
+    "yearsDonated": "2023"
   },
   {
+    "crecheTitle": "The Light has Come",
     "crecheOrigin": "United States",
     "crecheDescription": "Walking on water and developing software from a specification are easy if both are frozen.",
     "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "Edward V. Berard"
+    "crecheUser": "Joe Black",
+    "yearsDonated": "2023"
   },
   {
+    "crecheTitle": "Our Savior is Here",
     "crecheOrigin": "United States",
     "crecheDescription": "The most disastrous thing that you can ever learn is your first programming language.",
     "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "Alan Kay"
+    "crecheUser": "Joe Black",
+    "yearsDonated": "2023"
   },
   {
+    "crecheTitle": "Baby Jesus",
     "crecheOrigin": "United States",
     "crecheDescription": "The most important property of a program is whether it accomplishes the intention of its user.",
     "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "C.A.R. Hoare"
+    "crecheUser": "Max Kanat-Alexander",
+    "yearsDonated": "2023"
   },
   {
+    "crecheTitle": "Father's Birth",
     "crecheOrigin": "United States",
     "crecheDescription": "Delivering good software today is often better than perfect software tomorrow, so finish things and ship.",
     "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "David Thomas"
+    "crecheUser": "Joe Black",
+    "yearsDonated": "2023"
   },
   {
-    "crecheOrigin": "United States",
-    "crecheDescription": "If you optimize everything, you will always be unhappy.",
-    "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "Donald Knuth"
-  },
-  {
+    "crecheTitle": "The World's First Christmas",
     "crecheOrigin": "United States",
     "crecheDescription": "It's not a bug; it's an undocumented feature.",
     "crecheImage": "./DefaultCrecheImage.jpg",
-    "crecheUser": "Lernantino"
+    "crecheUser": "Joe Black",
+    "yearsDonated": "2023"
   }
 ]

@@ -4,11 +4,14 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    user: async (parent, { username }) => {
-      return User.findOne({ username }).populate('creches');
+    user: async (parent, { userName }) => {
+      return User.findOne({ userName }).populate('creches');
     },
-    creches: async (parent, { username }) => {
-      const params = username ? { crecheUser } : {};
+    exhibit: async(parent, { exhibitYear }) => {
+      return Exhibit.findOne({exhibitYear}).populate('creches');
+    },
+    creches: async (parent, { userName }) => {
+      const params = userName ? { crecheUser } : {};
       return Creche.find(params).sort({ createdAt: -1 });
     },
     creche: async (parent, { crecheId }) => {
@@ -23,8 +26,8 @@ const resolvers = {
   },
 
   Mutation: {
-    addUser: async (parent, { username, email, phoneNumber, password }) => {
-      const user = await User.create({ username, email, phoneNumber, password });
+    addUser: async (parent, { firstName, lastName, email, phoneNumber, password, wardName }) => {
+      const user = await User.create({ firstName, lastName, email, phoneNumber, password, wardName });
       const token = signToken(user);
       return { token, user };
     },
@@ -45,13 +48,15 @@ const resolvers = {
 
       return { token, user };
     },
-    addCreche: async (parent, { crecheOrigin, crecheDescription, crecheImage }, context) => {
+    addCreche: async (parent, { crecheTitle, crecheOrigin, crecheDescription, crecheImage, yearsDonated }, context) => {
       if (context.user) {
         const creche = await Creche.create({
+          crecheTitle,
           crecheOrigin,
           crecheDescription,
           crecheImage,
-          crecheUser: context.user.username,
+          crecheUser: context.user.userName,
+          yearsDonated,
         });
 
         await User.findOneAndUpdate(
@@ -67,7 +72,7 @@ const resolvers = {
       if (context.user) {
         const creche = await Creche.findOneAndDelete({
           _id: crecheId,
-          crecheUser: context.user.username,
+          crecheUser: context.user.userName,
         });
 
         await User.findOneAndUpdate(
