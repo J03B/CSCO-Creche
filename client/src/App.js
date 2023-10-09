@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   ApolloClient,
+  createHttpLink,
   ApolloProvider,
 } from '@apollo/client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
