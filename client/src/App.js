@@ -5,7 +5,7 @@ import {
 } from '@apollo/client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createUploadLink } from 'apollo-upload-client';
-//import { setContext } from '@apollo/client/link/context';
+import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -27,7 +27,7 @@ const darkTheme = createTheme({
   },
 });
 
-/*
+/**/
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -45,11 +45,10 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
-*/
 
 const client = new ApolloClient({
   // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
-  link: createUploadLink({uri: 'http://localhost:3001/graphql'}), // authLink.concat(httpLink),
+  link: authLink.concat(httpLink), // createUploadLink({uri: 'http://localhost:3001/graphql'}), // authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
