@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 import CrecheForm from '../components/CrecheForm';
@@ -7,7 +7,7 @@ import CrecheList from '../components/CrecheList';
 
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
 
-import Auth from '../utils/auth';
+// import Auth from '../utils/auth';
 
 const Profile = () => {
   const { username: userParam } = useParams();
@@ -17,16 +17,12 @@ const Profile = () => {
   });
 
   const user = data?.me || data?.user || {};
-  // navigate to personal profile page if username is yours
-  if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
-    return <Navigate to="/me" />;
-  }
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!user?.username) {
+  if (!user?.userName) {
     return (
       <h4>
         You need to be logged in to see this. Use the navigation links above to

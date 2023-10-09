@@ -1,14 +1,16 @@
-const { AuthenticationError } = require('apollo-server-express');
-const { User, Creche, Exhibit } = require('../models');
-const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require("apollo-server-express");
+const { User, Creche, Exhibit } = require("../models");
+const { signToken } = require("../utils/auth");
+const fs = require("fs");
+const path = require("path"); // for working with file paths
 
 const resolvers = {
   Query: {
     user: async (parent, { userName }) => {
-      return User.findOne({ userName }).populate('creches');
+      return User.findOne({ userName }).populate("creches");
     },
-    exhibit: async(parent, { exhibitYear }) => {
-      return Exhibit.findOne({exhibitYear}).populate('creches');
+    exhibit: async (parent, { exhibitYear }) => {
+      return Exhibit.findOne({ exhibitYear }).populate("creches");
     },
     creches: async (parent, { userName }) => {
       const params = userName ? { crecheUser } : {};
@@ -19,15 +21,25 @@ const resolvers = {
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('creches');
+        return User.findOne({ _id: context.user._id }).populate("creches");
       }
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
   },
 
   Mutation: {
-    addUser: async (parent, { firstName, lastName, email, phoneNumber, password, wardName }) => {
-      const user = await User.create({ firstName, lastName, email, phoneNumber, password, wardName });
+    addUser: async (
+      parent,
+      { firstName, lastName, email, phoneNumber, password, wardName }
+    ) => {
+      const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        password,
+        wardName,
+      });
       const token = signToken(user);
       return { token, user };
     },
@@ -35,38 +47,70 @@ const resolvers = {
       const user = await User.findOne({ email });
 
       if (!user) {
-        throw new AuthenticationError('No user found with this email address');
+        throw new AuthenticationError("No user found with this email address");
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
+        throw new AuthenticationError("Incorrect credentials");
       }
 
       const token = signToken(user);
 
       return { token, user };
     },
-    addCreche: async (parent, { crecheTitle, crecheOrigin, crecheDescription, crecheImage, yearsDonated }, context) => {
+    addCreche: async (
+      parent,
+      {
+        crecheTitle,
+        crecheOrigin,
+        crecheDescription,
+        crecheImage,
+        yearsDonated,
+      },
+      context
+    ) => {
       if (context.user) {
-        const creche = await Creche.create({
-          crecheTitle,
-          crecheOrigin,
-          crecheDescription,
-          crecheImage,
-          crecheUser: context.user.userName,
-          yearsDonated,
-        });
+        // Check if crecheImage exists and is not empty
+        if (crecheImage) {
+          // Generate a unique filename (you can use a library like uuid)
+          const uniqueFilename = `${Date.now()}-${crecheImage.name}`;
 
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { creches: creche._id } }
-        );
+          // Define the file path where the image will be saved
+          const filePath = path.join(__dirname, "../uploads", uniqueFilename);
 
-        return creche;
+          try {
+            // Write the file to the server's filesystem
+            fs.writeFileSync(filePath, crecheImage.data);
+
+            // Create the Creche document with the image path
+            const creche = await Creche.create({
+              crecheTitle,
+              crecheOrigin,
+              crecheDescription,
+              crecheImage: filePath, // Store the image path
+              crecheUser: context.user.userName,
+              yearsDonated,
+            });
+
+            await User.findOneAndUpdate(
+              { _id: context.user._id },
+              { $addToSet: { creches: creche._id } }
+            );
+
+            return creche;
+          } catch (error) {
+            // Handle any errors that occur during file writing
+            console.error("Error saving the image:", error);
+            throw new Error("Error saving the image.");
+          }
+        } else {
+          // Handle the case where crecheImage is missing
+          throw new Error("crecheImage is required.");
+        }
       }
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
     removeCreche: async (parent, { crecheId }, context) => {
       if (context.user) {
@@ -82,7 +126,7 @@ const resolvers = {
 
         return creche;
       }
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError("You need to be logged in!");
     },
   },
 };

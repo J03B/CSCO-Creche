@@ -17,11 +17,12 @@ html {
 /**
  * Remove the margin in all browsers.
  */
-body {
+.mainPage {
   margin: 0;
   background-image: url('../assets/images/mary-and-baby-jesus.jpg');
   background-repeat: repeat;
   background-position: center;
+  background-size: cover;
 }
 
 /**
@@ -458,7 +459,6 @@ html,
 body {
   height: 100%;
   min-height: 100vh;
-  background-color: #1e1e1e;
 }
 
 body {

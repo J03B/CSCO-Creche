@@ -59,7 +59,7 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_CRECHE = gql`
-  mutation addCreche($crecheTitle: String!, $crecheOrigin: String!, $crecheDescription: String!, $crecheImage: String!, $crecheUser: String!, $yearsDonated: [Int]!) {
+  mutation addCreche($crecheTitle: String!, $crecheOrigin: String!, $crecheDescription: String!, $crecheImage: Upload!, $crecheUser: String!, $yearsDonated: [Int]!) {
     addCreche(crecheTitle: $crecheTitle, crecheOrigin: $crecheOrigin, crecheDescription: $crecheDescription, crecheImage: $crecheImage, crecheUser: $crecheUser, yearsDonated: $yearsDonated) {
       _id
       crecheTitle

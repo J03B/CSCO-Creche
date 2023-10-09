@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
 
 import Auth from "../../utils/auth";
 
@@ -63,12 +64,23 @@ const Header = () => {
         </div>
         <div>
           {Auth.loggedIn() ? (
-            <Stack spacing={2} direction="row">
-              <Button variant="contained" size="large">
-                <Link className="btn btn-lg btn-info m-2" to="/me">
-                  {Auth.getProfile().data.username}'s profile
-                </Link>
-              </Button>
+            <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
+              <Link className="text-dark" to="/me">
+                {isMobile ? (
+                  <Avatar
+                    sx={{ bgcolor: '#90CAF9', opacity: 0.75 }}>
+                    {Auth.getProfile().data.userName[0]}
+                  </Avatar>
+                ) : (
+                  <Button
+                    variant="contained"
+                    size="large"
+                    sx={{ lineHeight: 1.5 }}
+                  >
+                    {Auth.getProfile().data.userName}'s profile
+                  </Button>
+                )}
+              </Link>
               <Button variant="outlined" size="large" onClick={logout}>
                 Logout
               </Button>
