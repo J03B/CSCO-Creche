@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Creche, Exhibit } = require("../models");
+const { User, Creche, Exhibit, Ward } = require("../models");
 const { signToken } = require("../utils/auth");
 const fs = require("fs");
 const path = require("path"); // for working with file paths
@@ -18,6 +18,10 @@ const resolvers = {
     },
     creche: async (parent, { crecheId }) => {
       return Creche.findOne({ _id: crecheId });
+    },
+    wards: async (parent, ) => {
+      const results = await Ward.find({});
+      return results;
     },
     me: async (parent, args, context) => {
       if (context.user) {

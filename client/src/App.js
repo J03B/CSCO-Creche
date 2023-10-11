@@ -3,8 +3,8 @@ import {
   ApolloClient,
   createHttpLink,
   ApolloProvider,
+  InMemoryCache
 } from '@apollo/client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createUploadLink } from 'apollo-upload-client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';

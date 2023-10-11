@@ -33,6 +33,7 @@ const typeDefs = gql`
   }
 
   type Ward {
+    _id: ID
     wardName: String
     stakeName: String
   }
@@ -47,6 +48,7 @@ const typeDefs = gql`
     exhibit(exhibitYear: Int!): Exhibit
     creches(userName: String!): [Creche]!
     creche(crecheId: ID!): Creche
+    wards: [Ward]!
     me: User
   }
 

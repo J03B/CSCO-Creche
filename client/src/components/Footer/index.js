@@ -1,6 +1,5 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -41,9 +40,9 @@ const Footer = () => {
           </Typography>
           <Typography variant="h6">
             <FacebookIcon /> Facebook:{" "}
-            <Link to="https://www.facebook.com/cscreche?mibextid=2JQ9oc">
+            <a rel="noreferrer" target="_blank" href="https://www.facebook.com/cscreche?mibextid=2JQ9oc">
               Light of the World Christmas Experience
-            </Link>
+            </a>
           </Typography>
           <Typography variant="h6">
             <ShareIcon /> Share:{" "}
@@ -56,11 +55,11 @@ const Footer = () => {
           </Typography>
           <Typography variant="h6">
             <LocationOnIcon /> Event Location:{" "}
-            <Link to={"https://maps.app.goo.gl/mbuHCrEh8C4BMDGc9"}>
+            <a rel="noreferrer" target="_blank" href={"https://maps.app.goo.gl/mbuHCrEh8C4BMDGc9"}>
               {" "}
               The Church of Jesus Christ of Latter-day Saints: 8710 Lexington
               Drive, Colorado Springs{" "}
-            </Link>
+            </a>
           </Typography>
         </Box>
       </div>

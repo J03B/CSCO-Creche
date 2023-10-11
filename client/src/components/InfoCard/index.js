@@ -35,7 +35,7 @@ export default function InfoCard({
       const overlayCta = document.createElement("div");
       overlayCta.classList.add("cta");
       overlayCta.textContent = ctaEl.textContent;
-      overlayCta.setAttribute("aria-hidden", false);
+      overlayCta.setAttribute("aria-hidden", true);
       overlayCard.append(overlayCta);
     };
 

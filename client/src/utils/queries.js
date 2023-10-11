@@ -76,6 +76,16 @@ export const QUERY_CRECHE = gql`
   }
 `;
 
+export const QUERY_WARDS = gql`
+  query wards {
+    wards {
+      _id
+      wardName
+      stakeName
+    }
+  }
+`;
+
 export const QUERY_ME = gql`
   query me {
     me {

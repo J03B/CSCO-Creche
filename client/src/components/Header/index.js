@@ -67,8 +67,7 @@ const Header = () => {
             <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
               <Link className="text-dark" to="/me">
                 {isMobile ? (
-                  <Avatar
-                    sx={{ bgcolor: '#90CAF9', opacity: 0.75 }}>
+                  <Avatar sx={{ bgcolor: "#90CAF9", opacity: 0.75 }}>
                     {Auth.getProfile().data.userName[0]}
                   </Avatar>
                 ) : (
@@ -87,16 +86,16 @@ const Header = () => {
             </Stack>
           ) : (
             <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
-              <Button variant="contained" size="large">
-                <Link className="text-dark" to="/login">
+              <Link className="text-dark" to="/login">
+                <Button variant="contained" size="large">
                   Login
-                </Link>
-              </Button>
-              <Button variant="outlined" size="large">
-                <Link className="text-light" to="/signup">
+                </Button>
+              </Link>
+              <Link className="text-light" to="/signup">
+                <Button variant="outlined" size="large">
                   Signup
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </Stack>
           )}
         </div>

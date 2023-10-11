@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
-import Stack from '@mui/material/Stack';
-import Alert from '@mui/material/Alert';
+import Stack from "@mui/material/Stack";
+import Alert from "@mui/material/Alert";
 import { Card, CardContent } from "@mui/material";
 import { MuiTelInput } from "mui-tel-input";
 
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
+import { QUERY_WARDS } from "../utils/queries";
 
 import Auth from "../utils/auth";
 
@@ -20,8 +25,21 @@ const Signup = () => {
     email: "",
     phoneNumber: "",
     password: "",
+    wardName: "",
   });
   const [addUser, { error, data }] = useMutation(ADD_USER);
+  const {
+    loading: loadingWards,
+    error: wardsError,
+    data: wardData,
+  } = useQuery(QUERY_WARDS);
+
+  const wards = wardData?.wards;
+  if (!loadingWards && !wards) {
+    console.log(wardsError);
+  } else {
+    console.log(wards);
+  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -105,6 +123,32 @@ const Signup = () => {
                     value={formState.email}
                     onChange={handleChange}
                   />
+                  <FormControl sx={{ m: 1, opacity: "100%" }}>
+                    <InputLabel id="ward-name-select-label">
+                      Ward Name
+                    </InputLabel>
+                    <Select
+                      labelId="ward-name-select-label"
+                      id="ward-name-select"
+                      variant="outlined"
+                      name="wardName"
+                      label="Ward Name"
+                      value={formState.wardName}
+                      onChange={handleChange}
+                    >
+                      {loadingWards ? (
+                        <MenuItem>Loading</MenuItem>
+                      ) : (
+                        wards.map((ward) => {
+                          return (
+                            <MenuItem value={ward.wardName}>
+                              {ward.wardName}
+                            </MenuItem>
+                          );
+                        })
+                      )}
+                    </Select>
+                  </FormControl>
                   <MuiTelInput
                     variant="outlined"
                     sx={{ m: 1, opacity: "100%" }}
