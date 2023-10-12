@@ -15,23 +15,8 @@ const exhibitSchema = new Schema({
   ],
 },
 {
-  toJSON: {
-    virtuals: true,
-  },
   id: false,
 });
-
-exhibitSchema
-  .virtual("totalCreches")
-  // Getter
-  .get(function () {
-    return this.creches.length;
-  })
-  // Setter to set the first and last name
-  .set(function (v) {
-    const numCreches = v.length;
-    this.set({ numCreches });
-  });
 
 const Exhibit = model("Exhibit", exhibitSchema);
 

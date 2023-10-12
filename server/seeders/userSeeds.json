@@ -21,6 +21,7 @@
     "phoneNumber": "719-599-5384",
     "email": "byucrazyfan@gmail.com",
     "password": "password07",
-    "wardName": "Pine Creek"
+    "wardName": "Pine Creek",
+    "role": "admin"
   }
 ]

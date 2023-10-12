@@ -31,7 +31,6 @@ const typeDefs = gql`
     _id: ID
     exhibitYear: Int
     creches: [Creche]!
-    totalCreches: Int
   }
 
   type Ward {

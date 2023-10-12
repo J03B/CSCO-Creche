@@ -38,6 +38,11 @@ const userSchema = new Schema({
     maxlength: 100,
     trim: true,
   },
+  role: {
+    type: String,
+    default: "user",
+    required: true,
+  },
   creches: [
     {
       type: Schema.Types.ObjectId,

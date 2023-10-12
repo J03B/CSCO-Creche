@@ -1,5 +1,5 @@
 const db = require('../config/connection');
-const { User, Creche, Ward } = require('../models');
+const { User, Creche, Ward, Exhibit } = require('../models');
 const userSeeds = require('./userSeeds.json');
 const crecheSeeds = require('./crecheSeeds.json');
 const wardSeeds = require('./wardSeeds.json');
@@ -15,9 +15,11 @@ db.once('open', async () => {
     console.log("---Wards created---");
     await User.create(userSeeds);
     console.log("---Users created---");
+    await Exhibit.create({exhibitYear: 2023})
 
     for (let i = 0; i < crecheSeeds.length; i++) {
-      const { _id, crecheUser } = await Creche.create(crecheSeeds[i]);
+      const { _id, crecheUser, yearsDonated } = await Creche.create(crecheSeeds[i]);
+      console.log(crecheUser);
       const user = await User.findOneAndUpdate(
         { userName: crecheUser },
         {
@@ -27,6 +29,16 @@ db.once('open', async () => {
         }
       );
       console.log(`User ${user.userName} has been updated with 1 creche.`)
+
+      const exhibit = await Exhibit.findOneAndUpdate(
+        {exhibitYear: yearsDonated},
+        {
+          $addToSet: {
+            creches: _id,
+          },
+        }
+      );
+      console.log(`Creche added to the ${exhibit.exhibitYear} Exhibit.`);
     }
     console.log("---Creches created---");
   } catch (err) {

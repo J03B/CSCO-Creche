@@ -31,7 +31,6 @@ export const QUERY_EXHIBIT = gql`
     exhibit(exhibitYear: $exhibitYear) {
       _id
       exhibitYear
-      totalCreches
       creches {
         _id
         crecheTitle
@@ -89,26 +88,23 @@ export const QUERY_WARDS = gql`
 export const QUERY_ME = gql`
   query me {
     me {
-      user(userName: $userName) {
+      _id
+      firstName
+      lastName
+      email
+      phoneNumber
+      wardName
+      userName
+      totalCreches
+      creches {
         _id
-        firstName
-        lastName
-        email
-        phoneNumber
-        password
-        wardName
-        userName
-        totalCreches
-        creches {
-          _id
-          crecheTitle
-          crecheOrigin
-          crecheDescription
-          crecheImage
-          crecheUser
-          yearsDonated
-          createdAt
-        }
+        crecheTitle
+        crecheOrigin
+        crecheDescription
+        crecheImage
+        crecheUser
+        yearsDonated
+        createdAt
       }
     }
   }

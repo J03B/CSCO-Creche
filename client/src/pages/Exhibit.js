@@ -1,45 +1,81 @@
-import React from 'react';
+import React, { useState } from "react";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
+import CrecheList from "../components/CrecheList";
 
 // Import the `useParams()` hook
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-
-import { QUERY_CRECHE } from '../utils/queries';
+import { useQuery } from "@apollo/client";
+import { QUERY_EXHIBIT } from "../utils/queries";
 
 const Exhibit = () => {
-  // Use `useParams()` to retrieve value of the route parameter `:profileId`
-  const { crecheId } = useParams();
-
-  const { loading, data } = useQuery(QUERY_CRECHE, {
-    // pass URL parameter
-    variables: { crecheId: crecheId },
+  const [yearState, setYearState] = useState(2023);
+  const { loading, error, data } = useQuery(QUERY_EXHIBIT, {
+    variables: { exhibitYear: yearState },
   });
 
-  const creche = data?.creche || {};
+  const exhibit = data?.exhibit || {};
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Stack spacing={1}>
+        {/* For variant="text", adjust the height via font-size */}
+        <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+        {/* For other variants, adjust the size with `width` and `height` */}
+        <Skeleton variant="circular" width={40} height={40} />
+        <Skeleton variant="rectangular" width={210} height={60} />
+        <Skeleton variant="rounded" width={210} height={60} />
+      </Stack>
+    );
   }
+
+  if (error) {
+    console.log(error);
+    return (
+      <Stack spacing={1}>
+        <Typography variant="h1">ERROR</Typography>
+        <Skeleton animation="wave" variant="text" sx={{ fontSize: "1rem" }} />
+      </Stack>
+    );
+  }
+
+  const handleYearChange = (e) => {
+    setYearState(e.target.value);
+  };
+  console.log(exhibit);
+
   return (
-    <div className="my-3">
-      <h3 className="card-header bg-dark text-light p-2 m-0">
-        {creche.crecheUser} <br />
-        <span style={{ fontSize: '1rem' }}>
-          donated this creche on {creche.createdAt}
-        </span>
-      </h3>
-      <div className="bg-light py-4">
-        <blockquote
-          className="p-4"
-          style={{
-            fontSize: '1.5rem',
-            fontStyle: 'italic',
-            border: '2px dotted #1a1a1a',
-            lineHeight: '1.5',
-          }}
-        >
-          {creche.crecheDescription}
-        </blockquote>
+    <div>
+      <div className="flex-row justify-center mb-3">
+        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+          <InputLabel id="select-exhibit-year-label">Year</InputLabel>
+          <Select
+            labelId="select-exhibit-year-label"
+            id="select-exhibit-year"
+            value={yearState}
+            label="Year"
+            onChange={handleYearChange}
+          >
+            <MenuItem value={2023}>2023</MenuItem>
+            <MenuItem value={2022}>2022</MenuItem>
+            <MenuItem value={2021}>2021</MenuItem>
+          </Select>
+        </FormControl>
+        {exhibit.creches ? (
+          <CrecheList
+            creches={exhibit.creches}
+            title={`${yearState}'s creches...`}
+            showTitle={true}
+            showUsername={false}
+          />
+        ) : (
+          <>None</>
+        )}
       </div>
     </div>
   );

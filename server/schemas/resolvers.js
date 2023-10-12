@@ -102,8 +102,8 @@ const resolvers = {
 
         if (filename) {
           const stream = createReadStream();
-          const uploadName = `${Date.now()}-${filename}`;
-          const filePath = path.join(__dirname, "../uploads/", uploadName);
+          const uploadName = `${Date.now()}-${filename.replace(/\s+/g, "")}`;
+          const filePath = path.join("../client/public/images/", uploadName);
           try {
             // Write the file to the server's filesystem
             await storeUpload({ stream, filename: filePath });
@@ -113,7 +113,7 @@ const resolvers = {
               crecheTitle,
               crecheOrigin,
               crecheDescription,
-              crecheImage: filePath, // Store the image path
+              crecheImage: uploadName, // Store the image path
               crecheUser: context.user.userName,
               yearsDonated,
             });
