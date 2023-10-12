@@ -24,7 +24,7 @@ const CrecheForm = () => {
     crecheTitle: "",
     crecheDescription: "",
     crecheOrigin: "",
-    crecheImage: "",
+    crecheImage: null,
     yearsDonated: [2023],
   });
   const [expanded, setExpanded] = useState(true);
@@ -41,10 +41,6 @@ const CrecheForm = () => {
     const selectedFile = e.target.files[0];
     setSelectedImage(URL.createObjectURL(selectedFile)); // Store and display the selected image
     setCrecheFields({ ...crecheFields, crecheImage: selectedFile }); // Store the image file in your form data
-    console.log(
-      `Selected Image: ${selectedImage}\n
-       Selected File: ${JSON.stringify(selectedFile)}`
-    );
   };
 
   const handleFormSubmit = async (event) => {
@@ -58,7 +54,6 @@ const CrecheForm = () => {
           crecheDescription: crecheFields.crecheDescription,
           crecheOrigin: crecheFields.crecheOrigin,
           crecheImage: crecheFields.crecheImage,
-          crecheUser: Auth.getProfile().data.userName,
           yearsDonated: crecheFields.yearsDonated,
         },
       });
@@ -69,10 +64,14 @@ const CrecheForm = () => {
         crecheTitle: "",
         crecheDescription: "",
         crecheOrigin: "",
-        crecheImage: "",
+        crecheImage: null,
       });
+      setSelectedImage(null);
+
     } catch (err) {
+      console.log(crecheFields);
       console.error(err);
+      
     } finally {
       const fileInput = document.getElementById("crecheImageInput");
       if (fileInput) {
@@ -164,6 +163,7 @@ const CrecheForm = () => {
                   {selectedImage && (
                     <Box sx={{ marginTop: 1, marginBottom: 0, mx: "auto" }}>
                       <img
+                        id="uploadImagePreview"
                         src={selectedImage}
                         alt="Selected Creche"
                         style={{

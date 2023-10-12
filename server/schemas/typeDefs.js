@@ -1,6 +1,8 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+  scalar Upload
+
   type User {
     _id: ID
     firstName: String
@@ -55,7 +57,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(firstName: String!, lastName: String!, email: String!, phoneNumber: String!, password: String!, wardName: String!): Auth
     login(email: String!, password: String!): Auth
-    addCreche(crecheTitle: String!, crecheOrigin: String!, crecheDescription: String!, crecheImage: String!, yearsDonated: [Int]!): Creche
+    addCreche(crecheTitle: String!, crecheOrigin: String!, crecheDescription: String!, crecheImage: Upload!, yearsDonated: [Int]!): Creche
     removeCreche(crecheId: ID!): Creche
   }
 `;

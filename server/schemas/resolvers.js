@@ -3,8 +3,19 @@ const { User, Creche, Exhibit, Ward } = require("../models");
 const { signToken } = require("../utils/auth");
 const fs = require("fs");
 const path = require("path"); // for working with file paths
+const GraphQLUpload = require("graphql-upload/GraphQLUpload.js");
+
+const storeUpload = ({ stream, filename }) =>
+  new Promise((resolve, reject) => {
+    stream
+      .pipe(fs.createWriteStream(filename))
+      .on("finish", () => resolve())
+      .on("error", reject);
+  });
 
 const resolvers = {
+  Upload: GraphQLUpload,
+
   Query: {
     user: async (parent, { userName }) => {
       return User.findOne({ userName }).populate("creches");
@@ -19,7 +30,7 @@ const resolvers = {
     creche: async (parent, { crecheId }) => {
       return Creche.findOne({ _id: crecheId });
     },
-    wards: async (parent, ) => {
+    wards: async (parent) => {
       const results = await Ward.find({});
       return results;
     },
@@ -70,23 +81,32 @@ const resolvers = {
         crecheTitle,
         crecheOrigin,
         crecheDescription,
-        crecheImage,
+        crecheImage /* This is the file Upload */,
         yearsDonated,
       },
       context
     ) => {
+      console.log({
+        crecheTitle,
+        crecheOrigin,
+        crecheDescription,
+        crecheImage,
+        yearsDonated,
+        context,
+      });
       if (context.user) {
         // Check if crecheImage exists and is not empty
-        if (crecheImage) {
-          // Generate a unique filename (you can use a library like uuid)
-          const uniqueFilename = `${Date.now()}-${crecheImage.name}`;
+        const { createReadStream, filename, mimetype, encoding } =
+          await crecheImage;
+        console.log({ createReadStream, filename, mimetype, encoding });
 
-          // Define the file path where the image will be saved
-          const filePath = path.join(__dirname, "../uploads", uniqueFilename);
-
+        if (filename) {
+          const stream = createReadStream();
+          const uploadName = `${Date.now()}-${filename}`;
+          const filePath = path.join(__dirname, "../uploads/", uploadName);
           try {
             // Write the file to the server's filesystem
-            fs.writeFileSync(filePath, crecheImage.data);
+            await storeUpload({ stream, filename: filePath });
 
             // Create the Creche document with the image path
             const creche = await Creche.create({
@@ -100,6 +120,11 @@ const resolvers = {
 
             await User.findOneAndUpdate(
               { _id: context.user._id },
+              { $addToSet: { creches: creche._id } }
+            );
+
+            await Exhibit.findOneAndUpdate(
+              { exhibitYear: yearsDonated[-1] },
               { $addToSet: { creches: creche._id } }
             );
 

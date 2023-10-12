@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   ApolloClient,
-  createHttpLink,
   ApolloProvider,
-  InMemoryCache
+  InMemoryCache,
+  concat
 } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { setContext } from '@apollo/client/link/context';
@@ -28,10 +28,20 @@ const darkTheme = createTheme({
   },
 });
 
-/**/
+/*
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
+});
+*/
+
+// Construct our main GraphQL Image Upload API endpoint
+const PORT = process.env.PORT || 3001;
+const uploadLink = createUploadLink({
+  uri: `http://localhost:${PORT}/graphql`,
+  headers: {
+    'Apollo-Require-Preflight': 'true',
+  },
 });
 
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header
@@ -49,7 +59,7 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
-  link: authLink.concat(httpLink), // createUploadLink({uri: 'http://localhost:3001/graphql'}), // authLink.concat(httpLink),
+  link: concat(authLink, uploadLink), // createUploadLink({uri: 'http://localhost:3001/graphql'}), // authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
