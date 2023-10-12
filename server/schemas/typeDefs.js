@@ -13,6 +13,7 @@ const typeDefs = gql`
     wardName: String
     creches: [Creche]!
     userName: String
+    role: String
     totalCreches: Int
   }
 
@@ -51,6 +52,8 @@ const typeDefs = gql`
     creche(crecheId: ID!): Creche
     wards: [Ward]!
     me: User
+    usersByYear(year: Int!): [User]!
+    allUsers: [User]
   }
 
   type Mutation {

@@ -20,7 +20,7 @@ const Home = () => {
             card1Title="Creche Exhibit"
             card2Title="Live Nativity"
             card3Title="Christmas Concert"
-            card1Date="Nov 30 - Dec 2: until 8pm"
+            card1Date="Nov 30: 5-8pm; Dec 1-2: 1-8pm"
             card2Date="December 1-2: 6, 6:30, 7pm"
             card3Date="December 10: 5pm, 7pm"
             imagePath="/static/media/crecheExhibit.jpg"

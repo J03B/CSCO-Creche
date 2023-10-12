@@ -3,6 +3,7 @@ const { Schema, model } = require("mongoose");
 const exhibitSchema = new Schema({
   exhibitYear: {
     type: Number,
+    unique: true,
     required: true,
     minlength: 1,
     maxlength: 4,

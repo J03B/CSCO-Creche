@@ -15,7 +15,10 @@ db.once('open', async () => {
     console.log("---Wards created---");
     await User.create(userSeeds);
     console.log("---Users created---");
-    await Exhibit.create({exhibitYear: 2023})
+    await Exhibit.create({exhibitYear: 2023});
+    await Exhibit.create({exhibitYear: 2022});
+    await Exhibit.create({exhibitYear: 2021});
+    console.log("---Exhibits created---");
 
     for (let i = 0; i < crecheSeeds.length; i++) {
       const { _id, crecheUser, yearsDonated } = await Creche.create(crecheSeeds[i]);

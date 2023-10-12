@@ -2,24 +2,23 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
-import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
 import CrecheForm from "../components/CrecheForm";
 import CrecheList from "../components/CrecheList";
+import AdminActions from "../components/AdminActions";
 
-import { QUERY_USER, QUERY_ME } from "../utils/queries";
+import { QUERY_ME } from "../utils/queries";
 
 import Auth from "../utils/auth";
 
 const Profile = () => {
-  const userData = Auth.getProfile().data;
   const {
     loading: loadingMe,
     error: errorMe,
     data: dataMe,
   } = useQuery(QUERY_ME);
-
   const user = dataMe?.me || {};
 
   if (loadingMe) {
@@ -37,6 +36,7 @@ const Profile = () => {
 
   if (errorMe) {
     console.log(errorMe);
+    window.location.assign("login");
     return (
       <Stack spacing={1}>
         <Typography variant="h1">ERROR</Typography>
@@ -44,7 +44,6 @@ const Profile = () => {
       </Stack>
     );
   }
-  console.log(userData);
   console.log(user);
 
   if (!user.userName) {
@@ -58,15 +57,27 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="flex-row justify-center mb-3">
-        <Typography variant="h2">
-          Viewing {user ? `${user.firstName}'s` : "your"} profile.
+      <div className="flex-row justify-center my-3">
+        <Typography variant="h2" className="mainCard__heading">
+          Viewing {user ? `${user.firstName}'s` : "your"} profile
         </Typography>
         {dataMe && (
           <div className="col-12 col-md-10 mb-3 p-3">
             <CrecheForm />
           </div>
         )}
+
+        {user.role === "admin" ? (
+          <div className="col-12 col-md-10 mb-3 p-3">
+            <Typography variant="h5" align="center" className="mainCard__heading">
+              Admin Actions
+            </Typography>
+            <AdminActions />
+          </div>
+        ) : (
+          <></>
+        )}
+
         <div className="col-12 col-md-10 mb-5">
           {user.creches ? (
             <CrecheList

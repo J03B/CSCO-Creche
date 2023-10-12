@@ -147,6 +147,7 @@ const Signup = () => {
                           );
                         })
                       )}
+                      <MenuItem value={"Other"} >Other</MenuItem>
                     </Select>
                   </FormControl>
                   <MuiTelInput

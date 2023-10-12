@@ -40,6 +40,21 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+    usersByYear: async (parent, { year }) => {
+      const users = User.find((u) => {
+        const yearIncluded = false;
+        u.creches.forEach(creche => {
+          if (creche.yearsDonated.includes(year)) {
+            yearIncluded = true;
+          }
+        });
+        return yearIncluded;
+      })
+      return users;
+    },
+    allUsers: async (parent, args, context) => {
+      return User.find({});
+    },
   },
 
   Mutation: {
@@ -124,7 +139,7 @@ const resolvers = {
             );
 
             await Exhibit.findOneAndUpdate(
-              { exhibitYear: yearsDonated[-1] },
+              { exhibitYear: yearsDonated },
               { $addToSet: { creches: creche._id } }
             );
 

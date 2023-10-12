@@ -12,6 +12,7 @@ export const QUERY_USER = gql`
       wardName
       userName
       totalCreches
+      role
       creches {
         _id
         crecheTitle
@@ -96,6 +97,7 @@ export const QUERY_ME = gql`
       wardName
       userName
       totalCreches
+      role
       creches {
         _id
         crecheTitle
@@ -106,6 +108,29 @@ export const QUERY_ME = gql`
         yearsDonated
         createdAt
       }
+    }
+  }
+`;
+
+export const QUERY_USERS_BY_YEAR = gql`
+  query usersByYear($year: Int) {
+    usersByYear(year: $year) {
+      userName
+      phoneNumber
+      email
+      wardName
+    }
+  }
+`;
+
+export const QUERY_ALL_USERS = gql`
+  query allUsers {
+    allUsers {
+      userName
+      phoneNumber
+      email
+      wardName
+      role
     }
   }
 `;

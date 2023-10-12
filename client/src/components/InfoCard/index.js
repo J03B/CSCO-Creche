@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export default function InfoCard({
@@ -78,15 +79,15 @@ export default function InfoCard({
 
   return (
     <main className="mainCard flow">
-      <h1 className="mainCard__heading">{infoTitle}</h1>
+      <Typography variant="h2" className="mainCard__heading">{infoTitle}</Typography>
       {/* Add a ref to the cards container */}
       <div className="mainCard__cards cards" ref={cardsContainerRef}>
         <div className="cards__inner">
           <div className="cards__card card">
-            <h2 className="card__heading">{card1Date}</h2>
-            <p className="card__price">{card1Title}</p>
+            <Typography variant="subtitle1" className="card__heading">{card1Date}</Typography>
+            <Typography variant="h4">{card1Title}</Typography>
             <ul className="card__bullets flow">
-              <p>{card1Description}</p>
+              <Typography variant="body1">{card1Description}</Typography>
             </ul>
             <Link to={"/Exhibit"} className="card__cta cta">
               View Exhibit
@@ -94,10 +95,10 @@ export default function InfoCard({
           </div>
 
           <div className="cards__card card">
-            <h2 className="card__heading">{card2Date}</h2>
-            <p className="card__price">{card2Title}</p>
+            <Typography variant="subtitle1" className="card__heading">{card2Date}</Typography>
+            <Typography variant="h4" className="card__price">{card2Title}</Typography>
             <ul className="card__bullets flow">
-              <p>{card2Description}</p>
+              <Typography variant="body1">{card2Description}</Typography>
             </ul>
             <Link to={"/Exhibit"} className="card__cta cta">
               View Exhibit
@@ -105,10 +106,10 @@ export default function InfoCard({
           </div>
 
           <div className="cards__card card">
-            <h2 className="card__heading">{card3Date}</h2>
-            <p className="card__price">{card3Title}</p>
+            <Typography variant="subtitle1" className="card__heading">{card3Date}</Typography>
+            <Typography variant="h4" className="card__price">{card3Title}</Typography>
             <ul className="card__bullets flow">
-              <p>{card3Description}</p>
+              <Typography variant="body1">{card3Description}</Typography>
             </ul>
             <Link to={"/Exhibit"} className="card__cta cta">
               View Exhibit

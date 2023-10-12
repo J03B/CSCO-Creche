@@ -11,6 +11,9 @@ import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
@@ -30,7 +33,7 @@ const CrecheForm = () => {
   const [expanded, setExpanded] = useState(true);
   const [characterCount, setCharacterCount] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null); // Store the selected image
-
+  const [submitSnackbar, setSubmitSnackbar] = useState(false);
   const [addCreche, { error }] = useMutation(ADD_CRECHE);
 
   const handleFileUpload = (e) => {
@@ -67,6 +70,7 @@ const CrecheForm = () => {
         crecheImage: null,
       });
       setSelectedImage(null);
+      setSubmitSnackbar(true);
 
     } catch (err) {
       console.log(crecheFields);
@@ -79,6 +83,27 @@ const CrecheForm = () => {
       }
     }
   };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSubmitSnackbar(false);
+  };
+
+  const snackbarAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -217,6 +242,13 @@ const CrecheForm = () => {
           )}
         </AccordionDetails>
       </Accordion>
+      <Snackbar
+        open={submitSnackbar}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Note archived"
+        action={snackbarAction}
+      />
     </div>
   );
 };

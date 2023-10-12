@@ -17,8 +17,8 @@ const Footer = () => {
       <div className="text-center">
         {location.pathname !== "/" && (
           <Button
-            variant="outlined"
-            sx={{ mb: 5, bgcolor: "text.secondary", color: "black" }}
+            variant="contained"
+            sx={{ mb: 6 }}
             onClick={() => navigate(-1)}
           >
             &larr; Go Back
@@ -27,9 +27,11 @@ const Footer = () => {
         <Box
           sx={{
             p: 2,
+            backgroundColor: 'black',
+              opacity: [0.9, 0.8, 0.7],
             '&:hover': {
               backgroundColor: 'black',
-              opacity: [0.9, 0.8, 0.7],
+              opacity: [0.9, 0.9, 0.9],
             },
           }}
         >

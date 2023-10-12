@@ -38,7 +38,7 @@ const CrecheList = ({
   };
 
   if (!creches.length) {
-    return <Typography variant="h3">No Creches Donated Yet</Typography>;
+    return <Typography variant="h3" className="mainCard__heading">No Creches Donated Yet</Typography>;
   }
 
   return (
