@@ -54,7 +54,6 @@ const resolvers = {
               if (creche.yearsDonated.includes(year)) {
                 returnUsers.push(user);
                 userAdded = true;
-                console.log("User added to the return list");
               }
               if (userAdded) {
                 userAdded = false;
@@ -252,6 +251,13 @@ const resolvers = {
       );
       return userData;
     },
+    grantAdmin: async (parent, { email }, context) => {
+      const user = await User.findOneAndUpdate({ email }, {role: "admin"});
+      if (!user) {
+        throw new Error("User does not exist");
+      }
+      return user;
+    }
   },
 };
 

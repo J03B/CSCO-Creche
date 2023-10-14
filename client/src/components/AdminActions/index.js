@@ -12,17 +12,21 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+import UserInfo from "./UserInfo";
 import { useQuery } from "@apollo/client";
 import { QUERY_USERS_BY_YEAR, QUERY_ALL_USERS } from "../../utils/queries";
 
 const AdminActions = () => {
-  const { error: errorByYear, data: dataByYear } = useQuery(
+  const [ openUserInfo, setOpenUserInfo ] = useState(false);
+  const [ grantAdminOption, setGrantAdminOption ] = useState(false);
+
+  const { data: dataByYear } = useQuery(
     QUERY_USERS_BY_YEAR,
     {
       variables: { year: 2023, include: true },
     }
   );
-  const { error: errorByNotYear, data: dataByNotYear } = useQuery(
+  const { data: dataByNotYear } = useQuery(
     QUERY_USERS_BY_YEAR,
     {
       variables: { year: 2023, include: false },
@@ -32,11 +36,6 @@ const AdminActions = () => {
   const users2023 = dataByYear?.usersByYear || {};
   const usersNot2023 = dataByNotYear?.usersByYear || {};
   const usersAll = dataAll?.allUsers || {};
-  console.log(users2023);
-  console.log(usersNot2023);
-  console.log(usersAll);
-  console.log(errorByYear);
-  console.log(errorByNotYear);
 
   function createData(id, name, description, button, action) {
     return { id, name, description, button, action };
@@ -73,10 +72,21 @@ const AdminActions = () => {
   }
 
   // View all Users
-  function viewAllUsers() {}
+  function viewAllUsers() {
+    setGrantAdminOption(false);
+    setOpenUserInfo(true);
+  }
 
   // Grant admin access to individual users
-  function grantAdmin() {}
+  function grantAdmin() {
+    setGrantAdminOption(true);
+    setOpenUserInfo(true);
+  }
+
+  // Copy the Exhibit Details
+  function copyExhibit() {
+    return;
+  }
 
   const rows = [
     createData(
@@ -109,10 +119,17 @@ const AdminActions = () => {
     ),
     createData(
       5,
-      "Grant admin",
+      "Grant",
       "Grant users admin privileges (these actions).",
       "Authorize",
       grantAdmin
+    ),
+    createData(
+      6,
+      "Copy Exhibit",
+      "Copies the Exhibit details for the selected year (Title, Donor, Origin, Phone).",
+      "Copy",
+      copyExhibit,
     ),
   ];
 
@@ -158,6 +175,7 @@ const AdminActions = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <UserInfo open={ openUserInfo } setOpen={ setOpenUserInfo } newAdminOption={ grantAdminOption } />
     </Accordion>
   );
 };

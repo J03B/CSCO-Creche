@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
@@ -30,8 +30,22 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_USER = gql`
-  mutation addUser($firstName: String!, $lastName: String!, $email: String!, $phoneNumber: String!, $password: String!, $wardName: String!) {
-    addUser(firstName: $firstName, lastName: $lastName, email: $email, phoneNumber: $phoneNumber, password: $password, wardName: $wardName) {
+  mutation addUser(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $phoneNumber: String!
+    $password: String!
+    $wardName: String!
+  ) {
+    addUser(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phoneNumber: $phoneNumber
+      password: $password
+      wardName: $wardName
+    ) {
       token
       user {
         _id
@@ -59,8 +73,20 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_CRECHE = gql`
-  mutation addCreche($crecheTitle: String!, $crecheOrigin: String!, $crecheDescription: String!, $crecheImage: Upload!, $yearsDonated: [Int]!) {
-    addCreche(crecheTitle: $crecheTitle, crecheOrigin: $crecheOrigin, crecheDescription: $crecheDescription, crecheImage: $crecheImage, yearsDonated: $yearsDonated) {
+  mutation addCreche(
+    $crecheTitle: String!
+    $crecheOrigin: String!
+    $crecheDescription: String!
+    $crecheImage: Upload!
+    $yearsDonated: [Int]!
+  ) {
+    addCreche(
+      crecheTitle: $crecheTitle
+      crecheOrigin: $crecheOrigin
+      crecheDescription: $crecheDescription
+      crecheImage: $crecheImage
+      yearsDonated: $yearsDonated
+    ) {
       _id
       crecheTitle
       crecheOrigin
@@ -86,7 +112,7 @@ export const REMOVE_CRECHE = gql`
       createdAt
     }
   }
-`
+`;
 export const REDONATE_CRECHE = gql`
   mutation redonateCreche($crecheId: ID!, $yearToDonate: Int!) {
     redonateCreche(crecheId: $crecheId, yearToDonate: $yearToDonate) {
@@ -94,13 +120,23 @@ export const REDONATE_CRECHE = gql`
       yearsDonated
     }
   }
-`
+`;
 
 export const RESET_PASSWORD = gql`
-mutation resetPassword($email: String!) {
-  resetPassword(email: $email) {
-    userName
-    email
+  mutation resetPassword($email: String!) {
+    resetPassword(email: $email) {
+      userName
+      email
+    }
   }
-}`
-;
+`;
+
+export const GRANT_ADMIN = gql`
+  mutation grantAdmin($email: String!) {
+    grantAdmin(email: $email) {
+      userName
+      email
+      role
+    }
+  }
+`;

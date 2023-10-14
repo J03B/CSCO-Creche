@@ -126,6 +126,7 @@ export const QUERY_USERS_BY_YEAR = gql`
 export const QUERY_ALL_USERS = gql`
   query allUsers {
     allUsers {
+      _id
       userName
       phoneNumber
       email

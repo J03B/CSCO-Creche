@@ -63,6 +63,7 @@ const typeDefs = gql`
     removeCreche(crecheId: ID!): Creche
     redonateCreche(crecheId: ID!, yearToDonate: Int!): Creche
     resetPassword(email: String!): User
+    grantAdmin(email: String!): User
   }
 `;
 
