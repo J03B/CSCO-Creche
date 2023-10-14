@@ -69,7 +69,11 @@ const Exhibit = () => {
         {exhibit.creches ? (
           <CrecheList
             creches={exhibit.creches}
-            title={`${yearState}'s creches...`}
+            title={`${
+              exhibit.creches.length === 1
+                ? exhibit.creches.length + " creche"
+                : exhibit.creches.length + " creches"
+            } in ${yearState}'s Exhibit`}
             showTitle={true}
             showUsername={false}
           />

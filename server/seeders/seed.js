@@ -23,8 +23,9 @@ db.once('open', async () => {
     for (let i = 0; i < crecheSeeds.length; i++) {
       const { _id, crecheUser, yearsDonated } = await Creche.create(crecheSeeds[i]);
       console.log(crecheUser);
+      const [ firstName, lastName ] = crecheUser.split(" ");
       const user = await User.findOneAndUpdate(
-        { userName: crecheUser },
+        { firstName, lastName },
         {
           $addToSet: {
             creches: _id,

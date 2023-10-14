@@ -7,6 +7,7 @@ import {
   CardContent,
   Grid,
   Box,
+  Button,
   CardHeader,
   CardMedia,
   Collapse,
@@ -15,6 +16,11 @@ import { styled } from "@mui/material/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
+
+import { useMutation } from "@apollo/client";
+import { REDONATE_CRECHE } from "../../utils/mutations";
+
+const currentYear = process.env.CURRENT_YEAR || 2023;
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -31,14 +37,27 @@ const CrecheList = ({
   title,
   showTitle = true,
   showUsername = true,
+  redonateOption = false,
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const [ redonateCreche ] = useMutation( REDONATE_CRECHE );
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   if (!creches.length) {
     return <Typography variant="h3" className="mainCard__heading">No Creches Donated Yet</Typography>;
+  }
+
+  const useRedonate = async (e) => {
+    const variables = {
+      crecheId: e.target.id.split("-")[1],
+      yearToDonate: currentYear,
+    };
+    console.log(variables);
+    const { data } = await redonateCreche({ variables });
+    console.log(data);
+    // window.location.reload();
   }
 
   return (
@@ -65,7 +84,7 @@ const CrecheList = ({
                   image={`images/${creche.crecheImage}`}
                   alt={creche.crecheTitle}
                 />
-                <CardActions sx={{ alignItems: "right" }} disableSpacing>
+                <CardActions sx={{ justifyContent: "space-between" }} disableSpacing>
                   <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}
@@ -74,9 +93,15 @@ const CrecheList = ({
                   >
                     <ExpandMoreIcon />
                   </ExpandMore>
-                  <Typography align="right" variant="overline">
-                    Details
-                  </Typography>
+                  
+                  { (!creche.yearsDonated.includes(currentYear) && redonateOption) ? (
+                    <Button id={`Redonate-${creche._id}`} variant="contained" size="small" onClick={useRedonate}>
+                    Contribute to {currentYear}
+                  </Button>
+                  ) : (
+                    <>{" "}</>
+                  )}
+
                 </CardActions>
                 <Collapse in={expanded} timeout={"auto"} unmountOnExit>
                   <CardContent>
@@ -96,7 +121,7 @@ const CrecheList = ({
                       </Link>
                     ) : (
                       <Typography variant="caption">
-                        This creche was donated on {creche.createdAt}
+                        This creche was contributed on {creche.createdAt}
                       </Typography>
                     )}
                   </CardContent>

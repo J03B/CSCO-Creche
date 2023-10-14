@@ -85,6 +85,7 @@ const Profile = () => {
               title={`${user.userName}'s creches...`}
               showTitle={false}
               showUsername={false}
+              redonateOption={true}
             />
           ) : (
             <></>

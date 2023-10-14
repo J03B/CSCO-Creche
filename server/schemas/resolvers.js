@@ -43,13 +43,13 @@ const resolvers = {
     usersByYear: async (parent, { year }) => {
       const users = User.find((u) => {
         const yearIncluded = false;
-        u.creches.forEach(creche => {
+        u.creches.forEach((creche) => {
           if (creche.yearsDonated.includes(year)) {
             yearIncluded = true;
           }
         });
         return yearIncluded;
-      })
+      });
       return users;
     },
     allUsers: async (parent, args, context) => {
@@ -171,6 +171,32 @@ const resolvers = {
         return creche;
       }
       throw new AuthenticationError("You need to be logged in!");
+    },
+    redonateCreche: async (parent, { crecheId, yearToDonate }, context) => {
+      const creche = await Creche.findOne({
+        _id: crecheId,
+      });
+
+      // Make sure we match the Creche's user to the one logged in
+      if (context.user.userName === creche.crecheUser) {
+        const updatedYears = creche.yearsDonated;
+        updatedYears.push(yearToDonate);
+
+        // Perform update operation
+        const updatedCreche = await Creche.findOneAndUpdate(
+          {
+            _id: crecheId,
+          },
+          {
+            yearsDonated: updatedYears,
+          },
+          {
+            new: true,
+          }
+        );
+        return updatedCreche;
+      }
+      throw new AuthenticationError("Unable to update creche contribution");
     },
   },
 };

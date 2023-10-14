@@ -86,4 +86,13 @@ export const REMOVE_CRECHE = gql`
       createdAt
     }
   }
-`;
+`
+export const REDONATE_CRECHE = gql`
+  mutation redonateCreche($crecheId: ID!, $yearToDonate: Int!) {
+    redonateCreche(crecheId: $crecheId, yearToDonate: $yearToDonate) {
+      _id
+      yearsDonated
+    }
+  }
+`
+;
