@@ -1,4 +1,4 @@
-const { AuthenticationError } = require("apollo-server-express");
+const { AuthenticationError, Error } = require("apollo-server-express");
 const { User, Creche, Exhibit, Ward } = require("../models");
 const { signToken } = require("../utils/auth");
 const fs = require("fs");
@@ -197,6 +197,29 @@ const resolvers = {
         return updatedCreche;
       }
       throw new AuthenticationError("Unable to update creche contribution");
+    },
+    resetPassword: async (parent, { email }, context) => {
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new Error("User does not exist");
+      }
+      const pwOptions = [
+        "abcdefghijklmnopqrstuvwxyz",
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "0123456789",
+        "!@#$%^&",
+      ];
+      let generatedPW = "";
+      for (let i = 0; i < 8; i++) {
+        const option = pwOptions[Math.floor(Math.random() * 4)];
+        generatedPW += option[Math.floor(Math.random() * option.length)];
+      }
+      console.log(generatedPW);
+      const userData = await User.findOneAndUpdate(
+        { email },
+        { password: generatedPW }
+      );
+      return userData;
     },
   },
 };

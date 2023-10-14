@@ -62,6 +62,7 @@ const typeDefs = gql`
     addCreche(crecheTitle: String!, crecheOrigin: String!, crecheDescription: String!, crecheImage: Upload!, yearsDonated: [Int]!): Creche
     removeCreche(crecheId: ID!): Creche
     redonateCreche(crecheId: ID!, yearToDonate: Int!): Creche
+    resetPassword(email: String!): User
   }
 `;
 

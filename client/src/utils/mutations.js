@@ -95,4 +95,12 @@ export const REDONATE_CRECHE = gql`
     }
   }
 `
+
+export const RESET_PASSWORD = gql`
+mutation resetPassword($email: String!) {
+  resetPassword(email: $email) {
+    userName
+    email
+  }
+}`
 ;

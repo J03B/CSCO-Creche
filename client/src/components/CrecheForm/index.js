@@ -144,9 +144,9 @@ const CrecheForm = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>Donate</Typography>
+          <Typography sx={{ width: "33%", flexShrink: 0 }}>Contribute</Typography>
           <Typography sx={{ color: "text.secondary" }}>
-            Donate a creche to the event
+            Contribute a creche to the event
           </Typography>
         </AccordionSummary>
         <AccordionDetails>

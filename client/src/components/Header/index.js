@@ -13,7 +13,7 @@ import Auth from "../../utils/auth";
 
 const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
-  const [ currentPage, setCurrentPage ] = useState( window.location.pathname );
+  const [currentPage, setCurrentPage] = useState(window.location.pathname);
 
   const logout = (event) => {
     event.preventDefault();
@@ -69,7 +69,11 @@ const Header = () => {
           )}
 
           {Auth.loggedIn() ? (
-            <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
+            <Stack
+              spacing={isMobile ? 1 : 2}
+              direction={isMobile ? "column" : "row"}
+              sx={isMobile ? {alignItems: "center"} : { mb: 2 }}
+            >
               <Link className="text-dark" to="/me">
                 {isMobile ? (
                   <Avatar sx={{ bgcolor: "#90CAF9", opacity: 0.75 }}>
@@ -95,7 +99,11 @@ const Header = () => {
               </Button>
             </Stack>
           ) : (
-            <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
+            <Stack
+              spacing={isMobile ? 1 : 2}
+              direction={isMobile ? "column" : "row"}
+              sx={isMobile ? {} : { mb: 2 }}
+            >
               <Link className="text-dark" to="/login">
                 <Button
                   variant="contained"
@@ -123,18 +131,14 @@ const Header = () => {
           spacing={1}
           sx={{ justifyContent: "space-around", pb: 1 }}
         >
-          <ButtonGroup
-            aria-label="outlined primary button group"
-          >
+          <ButtonGroup aria-label="outlined primary button group">
             <Link to="/">
               <Button
                 label="Home"
                 onClick={(e) => {
                   setCurrentPage("/");
                 }}
-                variant={
-                  currentPage === "/" ? "contained" : "outlined"
-                }
+                variant={currentPage === "/" ? "contained" : "outlined"}
               >
                 Home
               </Button>
@@ -145,11 +149,7 @@ const Header = () => {
                 onClick={(e) => {
                   setCurrentPage("/Exhibit");
                 }}
-                variant={
-                  currentPage === "/Exhibit"
-                    ? "contained"
-                    : "outlined"
-                }
+                variant={currentPage === "/Exhibit" ? "contained" : "outlined"}
               >
                 Exhibit
               </Button>
@@ -160,11 +160,7 @@ const Header = () => {
                 onClick={(e) => {
                   setCurrentPage("/Nativity");
                 }}
-                variant={
-                  currentPage === "/Nativity"
-                    ? "contained"
-                    : "outlined"
-                }
+                variant={currentPage === "/Nativity" ? "contained" : "outlined"}
               >
                 Nativity
               </Button>
@@ -175,9 +171,7 @@ const Header = () => {
                 onClick={(e) => {
                   setCurrentPage("/me");
                 }}
-                variant={
-                  currentPage === "/me" ? "contained" : "outlined"
-                }
+                variant={currentPage === "/me" ? "contained" : "outlined"}
               >
                 Profile
               </Button>
