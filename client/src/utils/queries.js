@@ -113,8 +113,8 @@ export const QUERY_ME = gql`
 `;
 
 export const QUERY_USERS_BY_YEAR = gql`
-  query usersByYear($year: Int) {
-    usersByYear(year: $year) {
+  query usersByYear($year: Int!, $include: Boolean!) {
+    usersByYear(year: $year, include: $include) {
       userName
       phoneNumber
       email

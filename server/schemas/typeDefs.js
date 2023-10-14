@@ -52,7 +52,7 @@ const typeDefs = gql`
     creche(crecheId: ID!): Creche
     wards: [Ward]!
     me: User
-    usersByYear(year: Int!): [User]!
+    usersByYear(year: Int!, include: Boolean!): [User]!
     allUsers: [User]
   }
 

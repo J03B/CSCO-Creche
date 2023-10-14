@@ -40,20 +40,47 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
-    usersByYear: async (parent, { year }) => {
-      const users = User.find((u) => {
-        const yearIncluded = false;
-        u.creches.forEach((creche) => {
-          if (creche.yearsDonated.includes(year)) {
-            yearIncluded = true;
+    usersByYear: async (parent, { year, include }) => {
+      let returnUsers = [];
+      const users = await User.find({}).populate("creches");
+      let userAdded = !include;
+
+      // Loop through each user to find ones with a creche in the year
+      users.forEach(async (user) => {
+        if (user.creches.length > 0) {
+          for (let i = 0; i < user.creches.length; i++) {
+            const creche = user.creches[i];
+            if (include) {
+              if (creche.yearsDonated.includes(year)) {
+                returnUsers.push(user);
+                userAdded = true;
+                console.log("User added to the return list");
+              }
+              if (userAdded) {
+                userAdded = false;
+                return;
+              }
+            } else {
+              if (creche.yearsDonated.includes(year)) {
+                userAdded = true;
+                return;
+              }
+              userAdded = false;
+            }
           }
-        });
-        return yearIncluded;
+          if (!include && !userAdded) {
+            returnUsers.push(user);
+          }
+        } else {
+          if (!include) {
+            returnUsers.push(user);
+          }
+        }
       });
-      return users;
+      return returnUsers;
     },
     allUsers: async (parent, args, context) => {
-      return User.find({});
+      return await User.find({});
     },
   },
 
@@ -193,6 +220,10 @@ const resolvers = {
           {
             new: true,
           }
+        );
+        const exhibit = await Exhibit.findOneAndUpdate(
+          { exhibitYear: yearToDonate },
+          { $addToSet: { creches: crecheId } }
         );
         return updatedCreche;
       }
