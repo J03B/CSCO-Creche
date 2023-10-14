@@ -17,6 +17,7 @@ import SingleCreche from './pages/SingleCreche';
 import Exhibit from './pages/Exhibit';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Nativity from './pages/Nativity';
 import NoMatch from './pages/NoMatch';
 
 // Material UI Components
@@ -100,6 +101,10 @@ function App() {
                 <Route 
                   path="/exhibit" 
                   element={<Exhibit />}
+                />
+                <Route
+                  path='/Nativity'
+                  element={<Nativity />}
                 />
                 <Route
                   path="*"

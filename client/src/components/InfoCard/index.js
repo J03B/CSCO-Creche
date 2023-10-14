@@ -16,6 +16,7 @@ export default function InfoCard({
   card3Description,
 }) {
   const cardsContainerRef = useRef(null); // Use useRef to get a reference to the cards container
+  const overlayScheduled = useRef(false); // Track if the overlay callback is scheduled
 
   useEffect(() => {
     const cardsContainer = cardsContainerRef.current;
@@ -41,15 +42,23 @@ export default function InfoCard({
     };
 
     const handleResize = (entries) => {
-      entries.forEach((entry) => {
-        const cardIndex = cards.indexOf(entry.target);
-        let width = entry.borderBoxSize[0].inlineSize;
-        let height = entry.borderBoxSize[0].blockSize;
+      if (overlayScheduled.current) {
+        return;
+      }
 
-        if (cardIndex >= 0) {
-          overlay.children[cardIndex].style.width = `${width}px`;
-          overlay.children[cardIndex].style.height = `${height}px`;
-        }
+      overlayScheduled.current = true; // Prevent scheduling multiple times
+      requestAnimationFrame(() => {
+        entries.forEach((entry) => {
+          const cardIndex = cards.indexOf(entry.target);
+          let width = entry.borderBoxSize[0].inlineSize;
+          let height = entry.borderBoxSize[0].blockSize;
+
+          if (cardIndex >= 0) {
+            overlay.children[cardIndex].style.width = `${width}px`;
+            overlay.children[cardIndex].style.height = `${height}px`;
+          }
+        });
+        overlayScheduled.current = false; // Reset to allow the next scheduling
       });
     };
 
@@ -79,12 +88,16 @@ export default function InfoCard({
 
   return (
     <main className="mainCard flow">
-      <Typography variant="h2" className="mainCard__heading">{infoTitle}</Typography>
+      <Typography variant="h2" className="mainCard__heading">
+        {infoTitle}
+      </Typography>
       {/* Add a ref to the cards container */}
       <div className="mainCard__cards cards" ref={cardsContainerRef}>
         <div className="cards__inner">
           <div className="cards__card card">
-            <Typography variant="subtitle1" className="card__heading">{card1Date}</Typography>
+            <Typography variant="subtitle1" className="card__heading">
+              {card1Date}
+            </Typography>
             <Typography variant="h4">{card1Title}</Typography>
             <ul className="card__bullets flow">
               <Typography variant="body1">{card1Description}</Typography>
@@ -95,19 +108,27 @@ export default function InfoCard({
           </div>
 
           <div className="cards__card card">
-            <Typography variant="subtitle1" className="card__heading">{card2Date}</Typography>
-            <Typography variant="h4" className="card__price">{card2Title}</Typography>
+            <Typography variant="subtitle1" className="card__heading">
+              {card2Date}
+            </Typography>
+            <Typography variant="h4" className="card__price">
+              {card2Title}
+            </Typography>
             <ul className="card__bullets flow">
               <Typography variant="body1">{card2Description}</Typography>
             </ul>
-            <Link to={"/Exhibit"} className="card__cta cta">
-              View Exhibit
+            <Link to={"/Nativity"} className="card__cta cta">
+              Live Nativity Photos
             </Link>
           </div>
 
           <div className="cards__card card">
-            <Typography variant="subtitle1" className="card__heading">{card3Date}</Typography>
-            <Typography variant="h4" className="card__price">{card3Title}</Typography>
+            <Typography variant="subtitle1" className="card__heading">
+              {card3Date}
+            </Typography>
+            <Typography variant="h4" className="card__price">
+              {card3Title}
+            </Typography>
             <ul className="card__bullets flow">
               <Typography variant="body1">{card3Description}</Typography>
             </ul>
