@@ -165,7 +165,7 @@ const Header = () => {
                 Nativity
               </Button>
             </Link>
-            <Link to="/me">
+            <Link to={Auth.loggedIn() ? "/me" : "/login"}>
               <Button
                 label="Profile"
                 onClick={(e) => {

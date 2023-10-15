@@ -75,7 +75,7 @@ const Exhibit = () => {
                 : exhibit.creches.length + " creches"
             } in ${yearState}'s Exhibit`}
             showTitle={true}
-            showUsername={false}
+            showUsername={true}
           />
         ) : (
           <>None</>

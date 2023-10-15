@@ -76,7 +76,7 @@ const CrecheList = ({
                     </Avatar>
                   }
                   title={creche.crecheTitle}
-                  subheader={`Donated: ${creche.yearsDonated}`}
+                  subheader={`Contributed: ${creche.yearsDonated}`}
                 />
                 <CardMedia
                   component="img"
@@ -116,7 +116,7 @@ const CrecheList = ({
                         className="text-light"
                         to={`/profiles/${creche.crecheUser}`}
                       >
-                        {creche.crecheUser} donated this creche on{" "}
+                        {creche.crecheUser} contributed this creche on{" "}
                         {creche.createdAt}
                       </Link>
                     ) : (

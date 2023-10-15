@@ -37,9 +37,7 @@ const Signup = () => {
   const wards = wardData?.wards;
   if (!loadingWards && !wards) {
     console.log(wardsError);
-  } else {
-    console.log(wards);
-  }
+  } 
 
   const handleChange = (event) => {
     const { name, value } = event.target;

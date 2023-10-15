@@ -7,7 +7,7 @@ import { useQuery } from "@apollo/client";
 import CrecheForm from "../components/CrecheForm";
 import CrecheList from "../components/CrecheList";
 import AdminActions from "../components/AdminActions";
-
+import auth from "../utils/auth";
 import { QUERY_ME } from "../utils/queries";
 
 const Profile = () => {
@@ -18,6 +18,11 @@ const Profile = () => {
   } = useQuery(QUERY_ME);
   const user = dataMe?.me || {};
 
+  if ( !auth.loggedIn() ) {
+    window.location.assign("/login");
+    return ( <></> );
+  }
+  
   if (loadingMe) {
     return (
       <Stack spacing={1}>
