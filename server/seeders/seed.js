@@ -9,7 +9,8 @@ db.once('open', async () => {
     await Creche.deleteMany({});
     await User.deleteMany({});
     await Ward.deleteMany({});
-    console.log("---Creches, users, and wards deleted---");
+    await Exhibit.deleteMany({});
+    console.log("---Creches, users, wards, and exhibits deleted---");
 
     await Ward.create(wardSeeds);
     console.log("---Wards created---");

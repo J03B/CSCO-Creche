@@ -11,14 +11,19 @@ import Typography from "@mui/material/Typography";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
 
 import UserInfo from "./UserInfo";
 import { useQuery } from "@apollo/client";
-import { QUERY_USERS_BY_YEAR, QUERY_ALL_USERS } from "../../utils/queries";
+import { QUERY_USERS_BY_YEAR, QUERY_ALL_USERS, QUERY_EXHIBIT } from "../../utils/queries";
 
 const AdminActions = () => {
   const [ openUserInfo, setOpenUserInfo ] = useState(false);
   const [ grantAdminOption, setGrantAdminOption ] = useState(false);
+  const [ exhibitCopied, setExhibitCopied ] = useState(false);
+  const currentYear = process.env.CURRENT_YEAR || 2023;
 
   const { data: dataByYear } = useQuery(
     QUERY_USERS_BY_YEAR,
@@ -33,9 +38,11 @@ const AdminActions = () => {
     }
   );
   const { data: dataAll } = useQuery(QUERY_ALL_USERS);
+  const { data: dataExhibit } = useQuery(QUERY_EXHIBIT, { variables: { exhibitYear: currentYear }})
   const users2023 = dataByYear?.usersByYear || {};
   const usersNot2023 = dataByNotYear?.usersByYear || {};
   const usersAll = dataAll?.allUsers || {};
+  const exhibitData = dataExhibit?.exhibit || {};
 
   function createData(id, name, description, button, action) {
     return { id, name, description, button, action };
@@ -85,8 +92,31 @@ const AdminActions = () => {
 
   // Copy the Exhibit Details
   function copyExhibit() {
-    return;
+    let copyClipboard = "";
+    exhibitData.creches.forEach((creche) => {
+      copyClipboard += `Title: ${creche.crecheTitle}\nOrigin: ${creche.crecheOrigin}\nDonor: ${creche.crecheUser}\n\n\n`;
+    });
+    navigator.clipboard.writeText(copyClipboard);
+    setExhibitCopied(true);
   }
+  const closeCopyExhibit = (e, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setExhibitCopied(false);
+  };
+  const copyAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={closeCopyExhibit}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const rows = [
     createData(
@@ -176,6 +206,13 @@ const AdminActions = () => {
         </Table>
       </TableContainer>
       <UserInfo open={ openUserInfo } setOpen={ setOpenUserInfo } newAdminOption={ grantAdminOption } />
+      <Snackbar
+        open={exhibitCopied}
+        autoHideDuration={6000}
+        onClose={closeCopyExhibit}
+        message="Exhibit copied to clipboard"
+        action={copyAction}
+      />
     </Accordion>
   );
 };

@@ -11,16 +11,16 @@ import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-
 import { ADD_CRECHE } from "../../utils/mutations";
 
 import Auth from "../../utils/auth";
+import TermsAndConditions from "./TermsAndConditions";
 
 const CrecheForm = () => {
   const [crecheFields, setCrecheFields] = useState({
@@ -71,11 +71,9 @@ const CrecheForm = () => {
       });
       setSelectedImage(null);
       setSubmitSnackbar(true);
-
     } catch (err) {
       console.log(crecheFields);
       console.error(err);
-      
     } finally {
       const fileInput = document.getElementById("crecheImageInput");
       if (fileInput) {
@@ -85,7 +83,7 @@ const CrecheForm = () => {
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -144,11 +142,21 @@ const CrecheForm = () => {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>Contribute</Typography>
+          <Typography sx={{ width: "33%", flexShrink: 0 }}>
+            Contribute
+          </Typography>
           <Typography sx={{ color: "text.secondary" }}>
             Contribute a creche to the event
           </Typography>
         </AccordionSummary>
+        <Typography sx={{ mx: 4 }} variant="body2" align={"left"}>
+          We are asking for human figure nativity sets only please. Due to the
+          space provided and the nature of the event, we will not be able to
+          accept quilts, wall hangings, signs, etc. However, if you'd like to
+          include a picture and description of these items for the website, we
+          will love to display them here online. If you have any questions,
+          please reach out via the email provided.
+        </Typography>
         <AccordionDetails>
           {Auth.loggedIn() ? (
             <>
@@ -230,6 +238,7 @@ const CrecheForm = () => {
                     Add Creche
                   </Button>
                 </div>
+                  <TermsAndConditions />
                 {error && <Alert severity="error">{error.message}</Alert>}
               </Box>
             </>

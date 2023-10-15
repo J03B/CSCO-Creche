@@ -2,7 +2,6 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
-import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
 import CrecheForm from "../components/CrecheForm";
@@ -10,8 +9,6 @@ import CrecheList from "../components/CrecheList";
 import AdminActions from "../components/AdminActions";
 
 import { QUERY_ME } from "../utils/queries";
-
-import Auth from "../utils/auth";
 
 const Profile = () => {
   const {
@@ -36,7 +33,7 @@ const Profile = () => {
 
   if (errorMe) {
     console.log(errorMe);
-    window.location.assign("login");
+    window.location.assign("/login");
     return (
       <Stack spacing={1}>
         <Typography variant="h1">ERROR</Typography>
