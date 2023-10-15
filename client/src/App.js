@@ -37,9 +37,8 @@ const httpLink = createHttpLink({
 */
 
 // Construct our main GraphQL Image Upload API endpoint
-const PORT = process.env.PORT || 3001;
 const uploadLink = createUploadLink({
-  uri: `http://localhost:${PORT}/graphql`,
+  uri: `/graphql`,
   headers: {
     'Apollo-Require-Preflight': 'true',
   },
