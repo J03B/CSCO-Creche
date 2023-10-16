@@ -21,6 +21,19 @@ app.use(cors());
 app.use(graphqlUploadExpress()); // To handle file uploads
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === "production") {
+    /** We will use this next bit once we get the domain name transfered over 
+    if (req.headers.host === 'https://cs-creche-079a870b912e.herokuapp.com/') {
+      return res.redirect(301, 'https://www.https://www.coloradospringscreche.net');
+    }
+    */
+    if (req.headers["x-forwarded-proto"] !== "https") {
+      return res.redirect("https://" + req.headers.host + req.url);
+    }
+  }
+  return next();
+});
 
 // Serve up static assets
 app.use("/images", express.static(path.join(__dirname, "../client/images")));
