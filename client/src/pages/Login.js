@@ -64,7 +64,7 @@ const Login = (props) => {
   const submitResetRequest = async (e) => {
     e.preventDefault();
     const { data } = resetPassword({ variables: { email: formState.resetEmail } });
-    console.log(data);
+    console.log("Unable to reset password.");
   };
 
   return (
@@ -141,7 +141,7 @@ const Login = (props) => {
                     {resetError ? (
                       <Alert severity="error">Invalid Email Address</Alert>
                     ) : (
-                      <>{resetData ? <Alert>Email sent to {resetData.resetPassword.userName} at {resetData.resetPassword.email}.</Alert> : <></>}</>
+                      <>{resetData ? <Alert severity="warning">This feature is currently unavailable. Sorry for the inconvenience{/* {resetData.resetPassword.userName} at {resetData.resetPassword.email} */}.</Alert> : <></>}</>
                     )}
                   </DialogContent>
                   <DialogActions>

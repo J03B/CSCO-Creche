@@ -38,7 +38,7 @@ const Footer = () => {
           <Typography variant="h4">Contact us</Typography>
           <Typography variant="h6">
             <EmailIcon /> Email:{" "}
-            <a href="mailto:cscreche@gmail.com">cscreche@gmail.com</a>
+            <a href="mailto:cschristmasexperience@gmail.com">cschristmasexperience@gmail.com</a>
           </Typography>
           <Typography variant="h6">
             <FacebookIcon /> Facebook:{" "}

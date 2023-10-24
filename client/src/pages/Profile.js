@@ -46,7 +46,6 @@ const Profile = () => {
       </Stack>
     );
   }
-  console.log(user);
 
   if (!user.userName) {
     return (

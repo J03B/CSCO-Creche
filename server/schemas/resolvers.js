@@ -4,14 +4,31 @@ const { signToken } = require("../utils/auth");
 const fs = require("fs");
 const path = require("path"); // for working with file paths
 const GraphQLUpload = require("graphql-upload/GraphQLUpload.js");
+const sendEmail = require("../utils/sendEmail");
+const cloudinary = require("cloudinary").v2;
 
-const storeUpload = ({ stream, filename }) =>
-  new Promise((resolve, reject) => {
+async function storeUpload({ stream, filename }) {
+  let cloudUrl;
+  cloudinary.config({
+    cloud_name: process.env.CLOUD_API_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET,
+    secure: true
+  });
+
+  await new Promise((resolve, reject) => {
     stream
       .pipe(fs.createWriteStream(filename))
       .on("finish", () => resolve())
       .on("error", reject);
   });
+  console.log("file saved locally successfully");
+  await cloudinary.uploader.upload(filename, function (error, result) {
+    console.log(result, error);
+    cloudUrl = result.url;
+  });
+  return cloudUrl;
+};
 
 const resolvers = {
   Upload: GraphQLUpload,
@@ -133,7 +150,6 @@ const resolvers = {
         crecheDescription,
         crecheImage,
         yearsDonated,
-        context,
       });
       if (context.user) {
         // Check if crecheImage exists and is not empty
@@ -144,17 +160,27 @@ const resolvers = {
         if (filename) {
           const stream = createReadStream();
           const uploadName = `${Date.now()}-${filename.replace(/\s+/g, "")}`;
-          const filePath = path.join("../client/public/images/", uploadName);
+          let filePath;
+          if (process.env.NODE_ENV === "production") {
+            const dir = "/app/uploads/images";
+            if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir, {recursive: true});
+            }
+            filePath = path.join(dir, uploadName);
+          } else {
+            filePath = path.join("../client/public/images/", uploadName);
+          }
+
           try {
             // Write the file to the server's filesystem
-            await storeUpload({ stream, filename: filePath });
+            const cloudUrl = await storeUpload({ stream, filename: filePath });
 
             // Create the Creche document with the image path
             const creche = await Creche.create({
               crecheTitle,
               crecheOrigin,
               crecheDescription,
-              crecheImage: uploadName, // Store the image path
+              crecheImage: cloudUrl, // Store the image path
               crecheUser: context.user.userName,
               yearsDonated,
             });
@@ -245,19 +271,23 @@ const resolvers = {
         generatedPW += option[Math.floor(Math.random() * option.length)];
       }
       console.log(generatedPW);
-      const userData = await User.findOneAndUpdate(
+      /*const userData = await User.findOneAndUpdate(
         { email },
         { password: generatedPW }
       );
+      await sendEmail(email, "Colorado Springs Creche Password Reset", `Dear ${userData.firstName},\n\nYour new password is ${generatedPW}. Please save this password in a secure location.\n\nThank you,\nColorado Springs Creche`);
+      
       return userData;
+      */
+      return user;
     },
     grantAdmin: async (parent, { email }, context) => {
-      const user = await User.findOneAndUpdate({ email }, {role: "admin"});
+      const user = await User.findOneAndUpdate({ email }, { role: "admin" });
       if (!user) {
         throw new Error("User does not exist");
       }
       return user;
-    }
+    },
   },
 };
 

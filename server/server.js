@@ -7,6 +7,11 @@ const { authMiddleware } = require("./utils/auth");
 const cors = require("cors");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
+const dotenv = require('dotenv');
+const result = dotenv.config({ path: "../.ENV"});
+if (result.error) {
+  throw (result.error);
+}
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -25,7 +30,7 @@ app.use((req, res, next) => {
   if (process.env.NODE_ENV === "production") {
     /** We will use this next bit once we get the domain name transfered over 
     if (req.headers.host === 'https://cs-creche-079a870b912e.herokuapp.com/') {
-      return res.redirect(301, 'https://www.https://www.coloradospringscreche.net');
+      return res.redirect(301, 'https://www.coloradospringscreche.net');
     }
     */
     if (req.headers["x-forwarded-proto"] !== "https") {

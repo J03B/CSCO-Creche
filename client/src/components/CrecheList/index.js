@@ -81,7 +81,7 @@ const CrecheList = ({
                 <CardMedia
                   component="img"
                   height="194"
-                  image={`images/${creche.crecheImage}`}
+                  image={process.env.NODE_ENV === "production" ? `${creche.crecheImage}` : `images/${creche.crecheImage}`}
                   alt={creche.crecheTitle}
                 />
                 <CardActions sx={{ justifyContent: "space-between" }} disableSpacing>
