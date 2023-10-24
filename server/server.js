@@ -7,11 +7,11 @@ const { authMiddleware } = require("./utils/auth");
 const cors = require("cors");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
-const dotenv = require('dotenv');
+/*const dotenv = require('dotenv');
 const result = dotenv.config({ path: "../.ENV"});
 if (result.error) {
   throw (result.error);
-}
+}*/
 
 const PORT = process.env.PORT || 3001;
 const app = express();
