@@ -87,6 +87,7 @@ const Profile = () => {
               showTitle={false}
               showUsername={false}
               redonateOption={true}
+              editCrecheEnabled={true}
             />
           ) : (
             <></>

@@ -140,3 +140,28 @@ export const GRANT_ADMIN = gql`
     }
   }
 `;
+
+export const EDIT_CRECHE = gql`
+  mutation editCreche(
+    $crecheId: ID!
+    $crecheTitle: String!
+    $crecheOrigin: String!
+    $crecheDescription: String!
+  ) {
+    editCreche(
+      crecheId: $crecheId
+      crecheTitle: $crecheTitle
+      crecheOrigin: $crecheOrigin
+      crecheDescription: $crecheDescription
+    ) {
+      _id
+      crecheTitle
+      crecheOrigin
+      crecheDescription
+      crecheImage
+      crecheUser
+      yearsDonated
+      createdAt
+    }
+  }
+`;

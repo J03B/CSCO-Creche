@@ -13,7 +13,7 @@ async function storeUpload({ stream, filename }) {
     cloud_name: process.env.CLOUD_API_NAME,
     api_key: process.env.CLOUD_API_KEY,
     api_secret: process.env.CLOUD_API_SECRET,
-    secure: true
+    secure: true,
   });
 
   await new Promise((resolve, reject) => {
@@ -28,7 +28,7 @@ async function storeUpload({ stream, filename }) {
     cloudUrl = result.url;
   });
   return cloudUrl;
-};
+}
 
 const resolvers = {
   Upload: GraphQLUpload,
@@ -164,7 +164,7 @@ const resolvers = {
           if (process.env.NODE_ENV === "production") {
             const dir = "/app/uploads/images";
             if (!fs.existsSync(dir)) {
-              fs.mkdirSync(dir, {recursive: true});
+              fs.mkdirSync(dir, { recursive: true });
             }
             filePath = path.join(dir, uploadName);
           } else {
@@ -219,6 +219,17 @@ const resolvers = {
           { _id: context.user._id },
           { $pull: { creches: creche._id } }
         );
+
+        // Update the Exhibits
+        async function updateExhibit(year) {
+          await Exhibit.findOneAndUpdate(
+            { exhibitYear: year },
+            { $pull: { creches: creche._id } }
+          );
+        }
+        creche.yearsDonated.forEach(year => {
+          updateExhibit(year);
+        });
 
         return creche;
       }
@@ -287,6 +298,24 @@ const resolvers = {
         throw new Error("User does not exist");
       }
       return user;
+    },
+    editCreche: async (
+      parent,
+      { crecheId, crecheTitle, crecheOrigin, crecheDescription },
+      context
+    ) => {
+      const creche = await Creche.findOneAndUpdate(
+        { _id: crecheId },
+        {
+          crecheTitle,
+          crecheOrigin,
+          crecheDescription,
+        }
+      );
+      if (!creche) {
+        throw new Error("Creche not found");
+      }
+      return creche;
     },
   },
 };

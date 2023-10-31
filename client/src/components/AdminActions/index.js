@@ -118,6 +118,11 @@ const AdminActions = () => {
     </React.Fragment>
   );
 
+  // Delete Action
+  function deleteCreche() {
+
+  }
+
   const rows = [
     createData(
       1,
@@ -160,6 +165,13 @@ const AdminActions = () => {
       "Copies the Exhibit details for the selected year (Title, Donor, Origin, Phone).",
       "Copy",
       copyExhibit,
+    ),
+    createData(
+      7,
+      "Delete Creche",
+      "Deletes a selected creche from the exhibit.",
+      "Delete",
+      deleteCreche,
     ),
   ];
 
