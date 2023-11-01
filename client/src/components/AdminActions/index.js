@@ -16,11 +16,13 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 
 import UserInfo from "./UserInfo";
+import DeleteCreche from "./DeleteCreche";
 import { useQuery } from "@apollo/client";
 import { QUERY_USERS_BY_YEAR, QUERY_ALL_USERS, QUERY_EXHIBIT } from "../../utils/queries";
 
 const AdminActions = () => {
   const [ openUserInfo, setOpenUserInfo ] = useState(false);
+  const [ openDeleteMode, setOpenDeleteMode] = useState(false);
   const [ grantAdminOption, setGrantAdminOption ] = useState(false);
   const [ exhibitCopied, setExhibitCopied ] = useState(false);
   const currentYear = process.env.CURRENT_YEAR || 2023;
@@ -120,7 +122,7 @@ const AdminActions = () => {
 
   // Delete Action
   function deleteCreche() {
-
+    setOpenDeleteMode(true);
   }
 
   const rows = [
@@ -218,6 +220,7 @@ const AdminActions = () => {
         </Table>
       </TableContainer>
       <UserInfo open={ openUserInfo } setOpen={ setOpenUserInfo } newAdminOption={ grantAdminOption } />
+      <DeleteCreche open={ openDeleteMode } setOpen={ setOpenDeleteMode } newAdminOption={ grantAdminOption } />
       <Snackbar
         open={exhibitCopied}
         autoHideDuration={6000}

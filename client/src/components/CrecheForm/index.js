@@ -35,6 +35,7 @@ const CrecheForm = () => {
   const [selectedImage, setSelectedImage] = useState(null); // Store the selected image
   const [submitSnackbar, setSubmitSnackbar] = useState(false);
   const [addCreche, { error }] = useMutation(ADD_CRECHE);
+  const [errorDisplay, setErrorDisplay] = useState("");
 
   const handleFileUpload = (e) => {
     if (!e.target.files) {
@@ -74,6 +75,19 @@ const CrecheForm = () => {
     } catch (err) {
       console.log(crecheFields);
       console.error(err);
+      if (!crecheFields.crecheTitle) {
+        setErrorDisplay("Must include a title for your creche");
+      } else if (!crecheFields.crecheDescription) {
+        setErrorDisplay("Must include a description for your creche");
+      } else if (!crecheFields.crecheOrigin) {
+        setErrorDisplay("Must include an origin for your creche");
+      } else if (!crecheFields.crecheImage) {
+        setErrorDisplay("Must include an image with your creche");
+      } else if (error.message.includes("400")) {
+        setErrorDisplay("There was an issue connecting to the server.");
+      } else {
+        setErrorDisplay(error.message);
+      }
     } finally {
       const fileInput = document.getElementById("crecheImageInput");
       if (fileInput) {
@@ -239,7 +253,7 @@ const CrecheForm = () => {
                   </Button>
                 </div>
                   <TermsAndConditions />
-                {error && <Alert severity="error">{error.message}</Alert>}
+                {error && <Alert sx={{ml: 1.75, mt: 1.75}} severity="error">{errorDisplay}</Alert>}
               </Box>
             </>
           ) : (

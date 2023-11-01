@@ -14,10 +14,16 @@ import {
   IconButton,
   TextField,
   Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  DialogContentText
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 import { useMutation } from "@apollo/client";
 import { REDONATE_CRECHE } from "../../utils/mutations";
@@ -42,7 +48,10 @@ const CrecheList = ({
   showUsername = true,
   redonateOption = false,
   editCrecheEnabled = false,
+  deleteModeEnabled = false,
+  deleteFunction,
 }) => {
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [editMode, setEditMode] = useState({
     id: "",
@@ -79,7 +88,6 @@ const CrecheList = ({
     if (!expanded) {
       setExpanded(true);
     }
-    console.log(e.target.parentElement);
     if (e.target.id.split("-")[1]) {
       setEditMode({
         id: e.target.id.split("-")[1],
@@ -95,8 +103,6 @@ const CrecheList = ({
         description: e.target.parentElement.getAttribute("data-description"),
       });
     }
-
-    console.log(editMode);
   };
 
   const cancelEdits = () => {
@@ -124,12 +130,17 @@ const CrecheList = ({
     console.log("saving edits...");
 
     try {
-      const {data} = await editCreche({
+      const { data } = await editCreche({
         variables: {
-          crecheId: editMode.id, crecheTitle: editMode.title, crecheOrigin: editMode.origin, crecheDescription: editMode.description
+          crecheId: editMode.id,
+          crecheTitle: editMode.title,
+          crecheOrigin: editMode.origin,
+          crecheDescription: editMode.description,
         },
       });
-      console.log(`Reloading page to display changes for creche titled: ${data.crecheTitle}`);
+      console.log(
+        `Reloading page to display changes for creche titled: ${data.crecheTitle}`
+      );
     } catch (err) {
       console.log("unable to save edits");
       console.error(err);
@@ -142,6 +153,15 @@ const CrecheList = ({
       });
       window.location.reload();
     }
+  };
+
+  // Delete Dialog handling
+  const handleConfirmClickOpen = () => {
+    setOpenConfirmDelete(true);
+  };
+
+  const handleConfrimClose = () => {
+    setOpenConfirmDelete(false);
   };
 
   return (
@@ -219,6 +239,43 @@ const CrecheList = ({
                   >
                     <ExpandMoreIcon />
                   </ExpandMore>
+
+                  {deleteModeEnabled ? (
+                    <div>
+                      <IconButton onClick={handleConfirmClickOpen}>
+                        <DeleteForeverIcon />
+                      </IconButton>
+                      <Dialog
+                        open={openConfirmDelete}
+                        onClose={handleConfrimClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {"Delete Creche?"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to delete this creche? Once done, this action cannot be undone.
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleConfrimClose}>Cancel</Button>
+                          <Button
+                            id={`Delete-${creche._id}`}
+                            onClick={deleteFunction}
+                            variant="contained"
+                            color="error"
+                            autoFocus
+                          >
+                            Delete
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
 
                   {!creche.yearsDonated.includes(currentYear) &&
                   redonateOption ? (
