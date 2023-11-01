@@ -227,10 +227,18 @@ const resolvers = {
             { $pull: { creches: creche._id } }
           );
         }
-        creche.yearsDonated.forEach(year => {
+        creche.yearsDonated.forEach((year) => {
           updateExhibit(year);
         });
 
+        // Delete the image from the Cloudinary database
+        cloudinary.uploader.destroy(
+          creche.crecheImage.split("/")[-1].split(".")[0],
+          function (result) {
+            console.log(result);
+          }
+        );
+        
         return creche;
       }
       throw new AuthenticationError("You need to be logged in!");
