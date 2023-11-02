@@ -232,13 +232,20 @@ const resolvers = {
         });
 
         // Delete the image from the Cloudinary database
+        cloudinary.config({
+          cloud_name: process.env.CLOUD_API_NAME,
+          api_key: process.env.CLOUD_API_KEY,
+          api_secret: process.env.CLOUD_API_SECRET,
+          secure: true,
+        });
+        
         cloudinary.uploader.destroy(
           creche.crecheImage.split("/")[-1].split(".")[0],
           function (result) {
             console.log(result);
           }
         );
-        
+
         return creche;
       }
       throw new AuthenticationError("You need to be logged in!");
