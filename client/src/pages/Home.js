@@ -17,7 +17,7 @@ const Home = () => {
         <Stack direction="row" spacing={2}>
           <InfoCard
             infoTitle="Event Information"
-            card1Title="Creche Exhibit"
+            card1Title="Créche Exhibit"
             card2Title="Live Nativity"
             card3Title="Christmas Concert"
             card1Date="Nov 30: 5-8pm; Dec 1-2: 1-8pm"

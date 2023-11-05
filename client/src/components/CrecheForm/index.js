@@ -160,7 +160,7 @@ const CrecheForm = () => {
             Contribute
           </Typography>
           <Typography sx={{ color: "text.secondary" }}>
-            Contribute a creche to the event
+            Contribute a créche (nativity) to the event
           </Typography>
         </AccordionSummary>
         <Typography sx={{ mx: 4 }} variant="body2" align={"left"}>

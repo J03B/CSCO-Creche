@@ -48,7 +48,7 @@ const Header = () => {
                 </Link>
               </Typography>
               <Typography variant="subtitle1" gutterBottom>
-                Colorado Springs Creche
+                Colorado Springs Créche
               </Typography>
             </Stack>
           ) : (

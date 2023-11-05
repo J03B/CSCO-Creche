@@ -233,20 +233,22 @@ const resolvers = {
 
         // Delete the image from the Cloudinary database
         try {
-        cloudinary.config({
-          cloud_name: process.env.CLOUD_API_NAME,
-          api_key: process.env.CLOUD_API_KEY,
-          api_secret: process.env.CLOUD_API_SECRET,
-          secure: true,
-        });
-        
-        cloudinary.uploader.destroy(
-          creche.crecheImage.split("/")[-1].split(".")[0],
-          function (err, result) {
-            console.log(result ? result : err);
-          }
-        );
-        } catch(err) {
+          cloudinary.config({
+            cloud_name: process.env.CLOUD_API_NAME,
+            api_key: process.env.CLOUD_API_KEY,
+            api_secret: process.env.CLOUD_API_SECRET,
+            secure: true,
+          });
+
+          const publicId = creche.crecheImage.split("/")[-1].split(".")[0];
+          console.log(publicId);
+          cloudinary.uploader.destroy(
+            publicId,
+            function (err, result) {
+              console.log(result ? result : err);
+            }
+          );
+        } catch (err) {
           console.log(err);
         }
 
