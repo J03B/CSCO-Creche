@@ -155,6 +155,16 @@ const CrecheForm = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
+          sx={{
+            borderRadius: 1,
+            bgcolor: "info.dark", // use summary background color
+            "&:hover": {
+              bgcolor: "info.light", // use summary hover background
+              "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
+                color: "info.light",
+              }, // use summary hover icon color
+            },
+          }}
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
             Contribute
@@ -252,8 +262,12 @@ const CrecheForm = () => {
                     Add Creche
                   </Button>
                 </div>
-                  <TermsAndConditions />
-                {error && <Alert sx={{ml: 1.75, mt: 1.75}} severity="error">{errorDisplay}</Alert>}
+                <TermsAndConditions />
+                {error && (
+                  <Alert sx={{ ml: 1.75, mt: 1.75 }} severity="error">
+                    {errorDisplay}
+                  </Alert>
+                )}
               </Box>
             </>
           ) : (
