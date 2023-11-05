@@ -12,9 +12,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import CrecheList from "../CrecheList";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { QUERY_EXHIBIT } from "../../utils/queries";
-import { REMOVE_CRECHE } from "../../utils/mutations";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -30,7 +29,6 @@ const DeleteCreche = ({ open, setOpen }) => {
   const { loading, error, data } = useQuery(QUERY_EXHIBIT, {
     variables: { exhibitYear: yearState },
   });
-  const [removeCreche] = useMutation(REMOVE_CRECHE);
   const exhibitData = data?.exhibit || {};
 
   if (loading) {
@@ -58,23 +56,6 @@ const DeleteCreche = ({ open, setOpen }) => {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleDelete = async (e) => {
-    if (e.target.id.split("-")[1]) {
-      await removeCreche({
-        variables: {
-          crecheId: e.target.id.split("-")[1],
-        },
-      });
-    } else {
-      await removeCreche({
-        variables: {
-          crecheId: e.target.parentElement.id.split("-")[1],
-        },
-      });
-    }
-    window.location.reload();
   };
 
   return (
@@ -106,7 +87,6 @@ const DeleteCreche = ({ open, setOpen }) => {
             deleteModeEnabled={true}
             showTitle={false}
             creches={exhibitData.creches}
-            deleteFunction={handleDelete}
           />
         </DialogContent>
         <DialogActions>

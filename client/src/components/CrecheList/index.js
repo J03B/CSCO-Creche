@@ -26,8 +26,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 import { useMutation } from "@apollo/client";
-import { REDONATE_CRECHE } from "../../utils/mutations";
-import { EDIT_CRECHE } from "../../utils/mutations";
+import { REDONATE_CRECHE, EDIT_CRECHE, REMOVE_CRECHE } from "../../utils/mutations";
 
 const currentYear = process.env.CURRENT_YEAR || 2023;
 
@@ -49,7 +48,6 @@ const CrecheList = ({
   redonateOption = false,
   editCrecheEnabled = false,
   deleteModeEnabled = false,
-  deleteFunction,
 }) => {
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -61,6 +59,7 @@ const CrecheList = ({
   });
   const [redonateCreche] = useMutation(REDONATE_CRECHE);
   const [editCreche] = useMutation(EDIT_CRECHE);
+  const [removeCreche] = useMutation(REMOVE_CRECHE);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -164,6 +163,23 @@ const CrecheList = ({
     setOpenConfirmDelete(false);
   };
 
+  const handleDelete = async (e) => {
+    if (e.target.id.split("-")[1]) {
+      await removeCreche({
+        variables: {
+          crecheId: e.target.id.split("-")[1],
+        },
+      });
+    } else {
+      await removeCreche({
+        variables: {
+          crecheId: e.target.parentElement.id.split("-")[1],
+        },
+      });
+    }
+    window.location.reload();
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       {showTitle && (
@@ -263,7 +279,7 @@ const CrecheList = ({
                           <Button onClick={handleConfrimClose}>Cancel</Button>
                           <Button
                             id={`Delete-${creche._id}`}
-                            onClick={deleteFunction}
+                            onClick={handleDelete}
                             variant="contained"
                             color="error"
                             autoFocus
