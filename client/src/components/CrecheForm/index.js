@@ -157,19 +157,20 @@ const CrecheForm = () => {
           id="panel1bh-header"
           sx={{
             borderRadius: 1,
-            bgcolor: "info.dark", // use summary background color
-            "&:hover": {
-              bgcolor: "info.light", // use summary hover background
-              "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
-                color: "info.light",
-              }, // use summary hover icon color
-            },
+            color: "primary.dark"
+            //bgcolor: "primary.main", // use summary background color
+            //"&:hover": {
+            //  bgcolor: "info.light", // use summary hover background
+            //  "& .MuiAccordionSummary-expandIconWrapper .MuiSvgIcon-root": {
+            //    color: "info.light",
+            //  }, // use summary hover icon color
+            //},
           }}
         >
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>
+          <Typography variant="h5" sx={{ width: "33%", flexShrink: 0 }}>
             Contribute
           </Typography>
-          <Typography sx={{ color: "text.secondary" }}>
+          <Typography variant="h6" sx={{ color: "text.secondary" }}>
             Contribute a créche (nativity) to the event
           </Typography>
         </AccordionSummary>
