@@ -37,7 +37,7 @@ module.exports = (
     10: monthLength === 'short' ? 'Nov' : 'November',
     11: monthLength === 'short' ? 'Dec' : 'December',
   };
-
+  let d = new Date(new Date().toLocaleString("en-US", {timeZone: "MST"}));
   const dateObj = new Date(timestamp);
   const formattedMonth = months[dateObj.getMonth()];
 

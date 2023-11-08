@@ -239,13 +239,17 @@ const resolvers = {
       if (context.user) {
         const creche = await Creche.findOneAndDelete({
           _id: crecheId,
-          crecheUser: context.user.userName,
         });
 
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { creches: creche._id } }
+        const user = await User.findOneAndUpdate(
+          {
+            firstName: creche.crecheUser.split(" ")[0],
+            lastName: creche.crecheUser.split(" ")[1],
+            creches: { _id: crecheId }
+          },
+          { $pull: { creches: crecheId } }
         );
+        console.log(user);
 
         // Update the Exhibits
         async function updateExhibit(year) {
@@ -267,12 +271,22 @@ const resolvers = {
             secure: true,
           });
 
-          const publicId = creche.crecheImage.split("/")[-1].split(".")[0];
+          let publicId = String(creche.crecheImage);
+          console.log(publicId);
+          publicId = publicId.split("/")[publicId.split("/").length - 1];
+          console.log(publicId);
+          publicId = publicId.split(".")[0];
           console.log(publicId);
           if (publicId != "xvxwgzgzk1jglu5hrawp") {
-            cloudinary.uploader.destroy(publicId, function (err, result) {
+            cloudinary.api
+              .delete_resources([publicId], {
+                type: "upload",
+                resource_type: "image",
+              })
+              .then(console.log);
+            /*cloudinary.uploader.destroy(publicId, function (err, result) {
               console.log(result ? result : err);
-            });
+            });*/
           }
         } catch (err) {
           console.log(err);
@@ -383,7 +397,7 @@ const resolvers = {
                 crecheTitle,
                 crecheOrigin,
                 crecheDescription,
-                crecheImage: cloudUrl
+                crecheImage: cloudUrl,
               }
             );
             if (!creche) {

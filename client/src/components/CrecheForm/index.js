@@ -279,7 +279,7 @@ const CrecheForm = () => {
         open={submitSnackbar}
         autoHideDuration={6000}
         onClose={handleClose}
-        message="Note archived"
+        message="Nativity contributed successfully..."
         action={snackbarAction}
       />
     </div>

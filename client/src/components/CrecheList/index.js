@@ -64,6 +64,7 @@ const CrecheList = ({
     image: null,
   });
   const [selectedImage, setSelectedImage] = useState(null); // Store the selected image
+  const [crecheIdToDelete, setCrecheIdToDelete] = useState("");
   const [redonateCreche] = useMutation(REDONATE_CRECHE);
   const [editCreche] = useMutation(EDIT_CRECHE);
   const [removeCreche] = useMutation(REMOVE_CRECHE);
@@ -189,27 +190,25 @@ const CrecheList = ({
   };
 
   // Delete Dialog handling
-  const handleConfirmClickOpen = () => {
+  const handleConfirmClickOpen = (e) => {
     setOpenConfirmDelete(true);
+    setCrecheIdToDelete(e.target.id.split("-")[1] ? e.target.id.split("-")[1] : e.target.parentElement.id.split("-")[1]);
   };
 
   const handleConfrimClose = () => {
     setOpenConfirmDelete(false);
+    setCrecheIdToDelete("");
   };
 
   const handleDelete = async (e) => {
-    if (e.target.id.split("-")[1]) {
+    if (crecheIdToDelete) {
       await removeCreche({
         variables: {
-          crecheId: e.target.id.split("-")[1],
+          crecheId: crecheIdToDelete,
         },
       });
     } else {
-      await removeCreche({
-        variables: {
-          crecheId: e.target.parentElement.id.split("-")[1],
-        },
-      });
+      console.log("issue deleting creche");
     }
     window.location.reload();
   };
@@ -292,8 +291,8 @@ const CrecheList = ({
 
                   {deleteModeEnabled ? (
                     <div>
-                      <IconButton onClick={handleConfirmClickOpen}>
-                        <DeleteForeverIcon />
+                      <IconButton id={`Delete-${creche._id}`} onClick={handleConfirmClickOpen}>
+                        <DeleteForeverIcon id={`Delete2-${creche._id}`}/>
                       </IconButton>
                       <Dialog
                         open={openConfirmDelete}
@@ -313,7 +312,7 @@ const CrecheList = ({
                         <DialogActions>
                           <Button onClick={handleConfrimClose}>Cancel</Button>
                           <Button
-                            id={`Delete-${creche._id}`}
+                            id={`Delete-${crecheIdToDelete}`}
                             onClick={handleDelete}
                             variant="contained"
                             color="error"
