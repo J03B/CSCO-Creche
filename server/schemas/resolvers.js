@@ -25,7 +25,7 @@ async function storeUpload({ stream, filename }) {
   console.log("file saved locally successfully");
   await cloudinary.uploader.upload(filename, function (error, result) {
     console.log(result, error);
-    cloudUrl = result.url;
+    cloudUrl = result.secure_url;
   });
   return cloudUrl;
 }
@@ -153,58 +153,85 @@ const resolvers = {
       });
       if (context.user) {
         // Check if crecheImage exists and is not empty
-        const { createReadStream, filename, mimetype, encoding } =
-          await crecheImage;
-        console.log({ createReadStream, filename, mimetype, encoding });
+        if (crecheImage) {
+          const { createReadStream, filename, mimetype, encoding } =
+            await crecheImage;
+          console.log({ createReadStream, filename, mimetype, encoding });
 
-        if (filename) {
-          const stream = createReadStream();
-          const uploadName = `${Date.now()}-${filename.replace(/\s+/g, "")}`;
-          let filePath;
-          if (process.env.NODE_ENV === "production") {
-            const dir = "/app/uploads/images";
-            if (!fs.existsSync(dir)) {
-              fs.mkdirSync(dir, { recursive: true });
+          if (filename) {
+            const stream = createReadStream();
+            const uploadName = `${Date.now()}-${filename.replace(/\s+/g, "")}`;
+            let filePath;
+            if (process.env.NODE_ENV === "production") {
+              const dir = "/app/uploads/images";
+              if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+              }
+              filePath = path.join(dir, uploadName);
+            } else {
+              filePath = path.join("../client/public/images/", uploadName);
             }
-            filePath = path.join(dir, uploadName);
-          } else {
-            filePath = path.join("../client/public/images/", uploadName);
-          }
 
-          try {
-            // Write the file to the server's filesystem
-            const cloudUrl = await storeUpload({ stream, filename: filePath });
+            try {
+              // Write the file to the server's filesystem
+              const cloudUrl = await storeUpload({
+                stream,
+                filename: filePath,
+              });
 
-            // Create the Creche document with the image path
-            const creche = await Creche.create({
-              crecheTitle,
-              crecheOrigin,
-              crecheDescription,
-              crecheImage: cloudUrl, // Store the image path
-              crecheUser: context.user.userName,
-              yearsDonated,
-            });
+              // Create the Creche document with the image path
+              const creche = await Creche.create({
+                crecheTitle,
+                crecheOrigin,
+                crecheDescription,
+                crecheImage: cloudUrl, // Store the image path
+                crecheUser: context.user.userName,
+                yearsDonated,
+              });
 
-            await User.findOneAndUpdate(
-              { _id: context.user._id },
-              { $addToSet: { creches: creche._id } }
-            );
+              await User.findOneAndUpdate(
+                { _id: context.user._id },
+                { $addToSet: { creches: creche._id } }
+              );
 
-            await Exhibit.findOneAndUpdate(
-              { exhibitYear: yearsDonated },
-              { $addToSet: { creches: creche._id } }
-            );
+              await Exhibit.findOneAndUpdate(
+                { exhibitYear: yearsDonated },
+                { $addToSet: { creches: creche._id } }
+              );
 
-            return creche;
-          } catch (error) {
-            // Handle any errors that occur during file writing
-            console.error("Error saving the image:", error);
-            throw new Error("Error saving the image.");
+              return creche;
+            } catch (error) {
+              // Handle any errors that occur during file writing
+              console.error("Error saving the image:", error);
+              throw new Error("Error saving the image.");
+            }
           }
         } else {
           // Handle the case where crecheImage is missing
-          throw new Error("crecheImage is required.");
+          // Create the Creche document with the image path
+          const creche = await Creche.create({
+            crecheTitle,
+            crecheOrigin,
+            crecheDescription,
+            crecheImage:
+              "https://res.cloudinary.com/dhqe8xegn/image/upload/v1699424881/xvxwgzgzk1jglu5hrawp.gif", // Store the image path
+            crecheUser: context.user.userName,
+            yearsDonated,
+          });
+
+          await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $addToSet: { creches: creche._id } }
+          );
+
+          await Exhibit.findOneAndUpdate(
+            { exhibitYear: yearsDonated },
+            { $addToSet: { creches: creche._id } }
+          );
+
+          return creche;
         }
+        throw new Error("crecheImage is required.");
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -242,12 +269,11 @@ const resolvers = {
 
           const publicId = creche.crecheImage.split("/")[-1].split(".")[0];
           console.log(publicId);
-          cloudinary.uploader.destroy(
-            publicId,
-            function (err, result) {
+          if (publicId != "xvxwgzgzk1jglu5hrawp") {
+            cloudinary.uploader.destroy(publicId, function (err, result) {
               console.log(result ? result : err);
-            }
-          );
+            });
+          }
         } catch (err) {
           console.log(err);
         }
@@ -322,21 +348,66 @@ const resolvers = {
     },
     editCreche: async (
       parent,
-      { crecheId, crecheTitle, crecheOrigin, crecheDescription },
+      { crecheId, crecheTitle, crecheOrigin, crecheDescription, crecheImage },
       context
     ) => {
-      const creche = await Creche.findOneAndUpdate(
-        { _id: crecheId },
-        {
-          crecheTitle,
-          crecheOrigin,
-          crecheDescription,
+      if (crecheImage) {
+        const { createReadStream, filename, mimetype, encoding } =
+          await crecheImage;
+        console.log({ createReadStream, filename, mimetype, encoding });
+
+        if (filename) {
+          const stream = createReadStream();
+          const uploadName = `${Date.now()}-${filename.replace(/\s+/g, "")}`;
+          let filePath;
+          if (process.env.NODE_ENV === "production") {
+            const dir = "/app/uploads/images";
+            if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir, { recursive: true });
+            }
+            filePath = path.join(dir, uploadName);
+          } else {
+            filePath = path.join("../client/public/images/", uploadName);
+          }
+
+          try {
+            // Write the file to the server's filesystem
+            const cloudUrl = await storeUpload({
+              stream,
+              filename: filePath,
+            });
+
+            const creche = await Creche.findOneAndUpdate(
+              { _id: crecheId },
+              {
+                crecheTitle,
+                crecheOrigin,
+                crecheDescription,
+                crecheImage: cloudUrl
+              }
+            );
+            if (!creche) {
+              throw new Error("Creche not found");
+            }
+            return creche;
+          } catch (err) {
+            console.log(err);
+          }
         }
-      );
-      if (!creche) {
-        throw new Error("Creche not found");
+      } else {
+        const creche = await Creche.findOneAndUpdate(
+          { _id: crecheId },
+          {
+            crecheTitle,
+            crecheOrigin,
+            crecheDescription,
+          }
+        );
+        if (!creche) {
+          throw new Error("Creche not found");
+        }
+        return creche;
       }
-      return creche;
     },
   },
 };

@@ -18,15 +18,20 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  DialogContentText
+  DialogContentText,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 import { useMutation } from "@apollo/client";
-import { REDONATE_CRECHE, EDIT_CRECHE, REMOVE_CRECHE } from "../../utils/mutations";
+import {
+  REDONATE_CRECHE,
+  EDIT_CRECHE,
+  REMOVE_CRECHE,
+} from "../../utils/mutations";
 
 const currentYear = process.env.CURRENT_YEAR || 2023;
 
@@ -56,7 +61,9 @@ const CrecheList = ({
     title: "",
     origin: "",
     description: "",
+    image: null,
   });
+  const [selectedImage, setSelectedImage] = useState(null); // Store the selected image
   const [redonateCreche] = useMutation(REDONATE_CRECHE);
   const [editCreche] = useMutation(EDIT_CRECHE);
   const [removeCreche] = useMutation(REMOVE_CRECHE);
@@ -72,6 +79,30 @@ const CrecheList = ({
     );
   }
 
+  // Handle file upload image display
+  const handleFileUpload = (e) => {
+    if (!e.target.files) {
+      return;
+    }
+
+    const selectedFile = e.target.files[0];
+    setSelectedImage(URL.createObjectURL(selectedFile)); // Store and display the selected image
+    setEditMode({ ...editMode, image: selectedFile }); // Store the image file in your form data
+  };
+
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
+
+  // Use Redonate capability
   const useRedonate = async (e) => {
     const variables = {
       crecheId: e.target.id.split("-")[1],
@@ -110,7 +141,9 @@ const CrecheList = ({
       title: "",
       origin: "",
       description: "",
+      image: null
     });
+    setSelectedImage(null);
   };
 
   const handleChange = (event) => {
@@ -135,6 +168,7 @@ const CrecheList = ({
           crecheTitle: editMode.title,
           crecheOrigin: editMode.origin,
           crecheDescription: editMode.description,
+          crecheImage: editMode.image,
         },
       });
       console.log(
@@ -272,7 +306,8 @@ const CrecheList = ({
                         </DialogTitle>
                         <DialogContent>
                           <DialogContentText id="alert-dialog-description">
-                            Are you sure you want to delete this creche? Once done, this action cannot be undone.
+                            Are you sure you want to delete this creche? Once
+                            done, this action cannot be undone.
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
@@ -330,15 +365,59 @@ const CrecheList = ({
                           fullWidth
                           onChange={handleChange}
                         />
+
+                        {/* Display the selected image */}
+                        {selectedImage && (
+                          <Box
+                            sx={{
+                              justifyContent: "center",
+                              marginTop: 1,
+                              marginBottom: 0,
+                              mx: "auto",
+                            }}
+                          >
+                            <img
+                              id="uploadImagePreview"
+                              src={selectedImage}
+                              alt="Selected Creche"
+                              style={{
+                                width: "94%",
+                                maxWidth: "400px",
+                                marginTop: "5px",
+                                marginLeft: "8px",
+                                marginRight: "8px",
+                              }}
+                            />
+                          </Box>
+                        )}
+                        <Button
+                          fullWidth
+                          component="label"
+                          variant="contained"
+                          startIcon={<CloudUploadIcon />}
+                          sx={{ mb: 1.5 }}
+                        >
+                          Change Image
+                          <VisuallyHiddenInput
+                            id="crecheImageInput"
+                            name="crecheImage"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                          />
+                        </Button>
+
                         <TextField
                           label="Description"
                           name="description"
                           value={editMode.description}
                           size="small"
+                          sx={{ mb: 1.5 }}
                           fullWidth
                           multiline
                           onChange={handleChange}
                         />
+
                         <Stack>
                           <Button
                             variant="contained"

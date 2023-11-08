@@ -77,7 +77,7 @@ export const ADD_CRECHE = gql`
     $crecheTitle: String!
     $crecheOrigin: String!
     $crecheDescription: String!
-    $crecheImage: Upload!
+    $crecheImage: Upload
     $yearsDonated: [Int]!
   ) {
     addCreche(
@@ -147,12 +147,14 @@ export const EDIT_CRECHE = gql`
     $crecheTitle: String!
     $crecheOrigin: String!
     $crecheDescription: String!
+    $crecheImage: Upload
   ) {
     editCreche(
       crecheId: $crecheId
       crecheTitle: $crecheTitle
       crecheOrigin: $crecheOrigin
       crecheDescription: $crecheDescription
+      crecheImage: $crecheImage
     ) {
       _id
       crecheTitle

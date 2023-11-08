@@ -59,12 +59,12 @@ const typeDefs = gql`
   type Mutation {
     addUser(firstName: String!, lastName: String!, email: String!, phoneNumber: String!, password: String!, wardName: String!): Auth
     login(email: String!, password: String!): Auth
-    addCreche(crecheTitle: String!, crecheOrigin: String!, crecheDescription: String!, crecheImage: Upload!, yearsDonated: [Int]!): Creche
+    addCreche(crecheTitle: String!, crecheOrigin: String!, crecheDescription: String!, crecheImage: Upload, yearsDonated: [Int]!): Creche
     removeCreche(crecheId: ID!): Creche
     redonateCreche(crecheId: ID!, yearToDonate: Int!): Creche
     resetPassword(email: String!): User
     grantAdmin(email: String!): User
-    editCreche(crecheId: ID!, crecheTitle: String!, crecheOrigin: String!, crecheDescription: String!): Creche
+    editCreche(crecheId: ID!, crecheTitle: String!, crecheOrigin: String!, crecheDescription: String!, crecheImage: Upload): Creche
   }
 `;
 

@@ -81,8 +81,6 @@ const CrecheForm = () => {
         setErrorDisplay("Must include a description for your creche");
       } else if (!crecheFields.crecheOrigin) {
         setErrorDisplay("Must include an origin for your creche");
-      } else if (!crecheFields.crecheImage) {
-        setErrorDisplay("Must include an image with your creche");
       } else if (error.message.includes("400")) {
         setErrorDisplay("There was an issue connecting to the server.");
       } else {
