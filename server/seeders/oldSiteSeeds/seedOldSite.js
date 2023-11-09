@@ -10,6 +10,10 @@ db.once("open", async () => {
       );
       console.log(crecheUser);
       const [firstName, lastName] = crecheUser.split(" ");
+      if (crecheSeeds[i].firstName) {
+        firstName = crecheSeeds[i].firstName;
+        lastName = crecheSeeds[i].lastName;
+      }
       const user = await User.findOneAndUpdate(
         { firstName, lastName },
         {
