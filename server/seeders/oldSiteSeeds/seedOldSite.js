@@ -9,7 +9,7 @@ db.once("open", async () => {
         crecheSeeds[i]
       );
       console.log(crecheUser);
-      const [firstName, lastName] = crecheUser.split(" ");
+      let [firstName, lastName] = crecheUser.split(" ");
       if (crecheSeeds[i].firstName) {
         firstName = crecheSeeds[i].firstName;
         lastName = crecheSeeds[i].lastName;
