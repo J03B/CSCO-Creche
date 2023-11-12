@@ -54,6 +54,7 @@ const typeDefs = gql`
     me: User
     usersByYear(year: Int!, include: Boolean!): [User]!
     allUsers: [User]
+    allCreches: [Creche]!
   }
 
   type Mutation {

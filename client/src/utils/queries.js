@@ -135,3 +135,18 @@ export const QUERY_ALL_USERS = gql`
     }
   }
 `;
+
+export const QUERY_ALL_CRECHES = gql`
+  query allCreches {
+    allCreches {
+      _id
+      crecheTitle
+      crecheOrigin
+      crecheDescription
+      crecheImage
+      crecheUser
+      yearsDonated
+      createdAt
+    }
+  }
+`;

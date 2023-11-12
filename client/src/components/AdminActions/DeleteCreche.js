@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 
 import CrecheList from "../CrecheList";
 import { useQuery } from "@apollo/client";
-import { QUERY_EXHIBIT } from "../../utils/queries";
+import { QUERY_ALL_CRECHES } from "../../utils/queries";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -25,11 +25,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const DeleteCreche = ({ open, setOpen }) => {
-  const [yearState] = useState(2023);
-  const { loading, error, data } = useQuery(QUERY_EXHIBIT, {
-    variables: { exhibitYear: yearState },
-  });
-  const exhibitData = data?.exhibit || {};
+  const { loading, error, data } = useQuery(QUERY_ALL_CRECHES);
+  const exhibitData = data?.allCreches || {};
 
   if (loading) {
     return (
@@ -67,7 +64,7 @@ const DeleteCreche = ({ open, setOpen }) => {
         maxWidth={"xl"}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          All Creches in Exhibit
+          All Creches
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -86,7 +83,7 @@ const DeleteCreche = ({ open, setOpen }) => {
           <CrecheList
             deleteModeEnabled={true}
             showTitle={false}
-            creches={exhibitData.creches}
+            creches={exhibitData}
           />
         </DialogContent>
         <DialogActions>

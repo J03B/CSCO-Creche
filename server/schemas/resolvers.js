@@ -98,6 +98,9 @@ const resolvers = {
     allUsers: async (parent, args, context) => {
       return await User.find({});
     },
+    allCreches: async (parent, args, context) => {
+      return await Creche.find({}).sort({yearsDonated: -1});
+    }
   },
 
   Mutation: {
