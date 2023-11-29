@@ -180,6 +180,15 @@ const CrecheForm = () => {
         <AccordionDetails>
           {Auth.loggedIn() ? (
             <>
+              <Typography sx={{ mx: 2 }} variant="body1" align={"left"}>
+                Please drop off your nativities at the Lexington building on
+                Wednesday, Nov 29th between 6:00pm - 9:00pm and/or Thursday, Nov
+                30th between 10:00am - 4:00pm.
+              </Typography>
+              <Typography sx={{ mx: 2, my: 1 }} variant="body1" align={"left"}>
+                Please pick up your nativities at the Lexington building on
+                Saturday, Dec 2nd between 8:30pm - 9:00pm.
+              </Typography>
               <Box
                 component="form"
                 sx={{ display: "flex", flexWrap: "wrap" }}
@@ -196,8 +205,8 @@ const CrecheForm = () => {
                   ></TextField>
                   <TextField
                     name="crecheDescription"
-                    placeholder="Describe this new creche..."
-                    label="Description"
+                    placeholder="What would you like to share about this nativity?"
+                    label="Background"
                     value={crecheFields.crecheDescription}
                     sx={{ m: 1 }}
                     multiline
@@ -246,7 +255,7 @@ const CrecheForm = () => {
                   </Button>
                   <TextField
                     name="crecheOrigin"
-                    placeholder="Where is this Creche from?"
+                    placeholder="Country of origin"
                     label="Origin"
                     value={crecheFields.crecheOrigin}
                     sx={{ m: 1 }}
